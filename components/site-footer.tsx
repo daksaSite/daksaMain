@@ -1,18 +1,19 @@
 import Link from "next/link";
 
-import { NAV_LINKS } from "@/lib/site-content";
+import { FOOTER_LINKS } from "@/lib/site-content";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-[color-mix(in_oklch,var(--brand-navy)_88%,black)] bg-[var(--brand-navy)] text-[color-mix(in_oklch,white_90%,transparent)]">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.2fr_1fr]">
+      <div className="site-container grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr]">
         <div className="space-y-3">
           <p className="font-heading text-base font-semibold text-white">
             Daksa Digital Pvt. Ltd.
           </p>
           <p className="max-w-sm text-sm leading-relaxed text-[color-mix(in_oklch,white_72%,transparent)]">
-            Built for Scale. Driven by Impact. Strategic digital solutions for
-            brands that want clarity, consistency, and measurable growth.
+            <span className="font-medium text-white">Built for Scale. Driven by Impact.</span>{" "}
+            Digital marketing and growth solutions for brands that want clarity,
+            consistency, and measurable results.
           </p>
         </div>
         <div>
@@ -20,7 +21,7 @@ export function SiteFooter() {
             Explore
           </p>
           <ul className="mt-4 flex flex-col gap-2 text-sm">
-            {NAV_LINKS.filter((l) => l.href !== "/").map(({ href, label }) => (
+            {FOOTER_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
@@ -34,7 +35,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-[color-mix(in_oklch,white_58%,transparent)] sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="site-container flex flex-col gap-3 py-6 text-sm text-[color-mix(in_oklch,white_58%,transparent)] sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Daksa Digital Pvt. Ltd. All rights reserved.</p>
           <Link
             href="https://daksadigital.in"

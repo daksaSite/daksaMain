@@ -1,0 +1,11 @@
+export { AboutPreviewSection } from "./about";
+export { HomeFaqSection } from "./faq";
+export { ExploreSection } from "./explore";
+export { HeroSection } from "./hero";
+export { PartnerModelCard } from "./partner-model-card";
+export { HomeCtaSection } from "./cta";
+export { PricingTeaserSection } from "./pricing";
+export { ProcessPreviewSection } from "./process";
+export { ServicesMarqueeSection } from "./services-marquee";
+export { TestimonialPreviewSection } from "./testimonials";
+export { WhyUsSection } from "./why-us";

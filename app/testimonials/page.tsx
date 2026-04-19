@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function TestimonialsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div className="site-container py-16 sm:py-20">
       <PageIntro
         eyebrow="Social proof"
         title="Trusted by teams who expect clarity, speed, and follow-through."

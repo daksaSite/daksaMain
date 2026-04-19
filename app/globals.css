@@ -53,8 +53,11 @@
   --brand-navy: #1a1b35;
   --brand-red: #e91e43;
   --brand-burgundy: #8b1a2f;
+  /* Navbar: theme navy (not grey) — soft fill + stronger active */
+  --nav-pill: color-mix(in srgb, var(--brand-navy) 11%, #f5f6fb);
+  --nav-pill-active: color-mix(in srgb, var(--brand-navy) 22%, #ffffff);
 
-  --background: #fafafc;
+  --background: #ffffff;
   --foreground: #1a1b35;
   --card: #ffffff;
   --card-foreground: #1a1b35;
@@ -62,15 +65,15 @@
   --popover-foreground: #1a1b35;
   --primary: #e91e43;
   --primary-foreground: #ffffff;
-  --secondary: oklch(0.96 0.015 270);
+  --secondary: oklch(0.985 0.008 270);
   --secondary-foreground: #1a1b35;
-  --muted: oklch(0.96 0.01 270);
-  --muted-foreground: oklch(0.45 0.02 270);
-  --accent: oklch(0.95 0.03 15);
+  --muted: oklch(0.98 0.006 270);
+  --muted-foreground: oklch(0.44 0.02 270);
+  --accent: oklch(0.97 0.02 15);
   --accent-foreground: #1a1b35;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.01 270);
-  --input: oklch(0.9 0.01 270);
+  --border: oklch(0.93 0.008 270);
+  --input: oklch(0.93 0.008 270);
   --ring: #e91e43;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -130,7 +133,13 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans scroll-smooth;
+    @apply font-sans;
+    scroll-behavior: auto;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   section[id] {
     scroll-margin-top: 5.5rem;
@@ -145,6 +154,226 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/** Home About orbit: dashed ring + service cards share one slow period. */
+:root {
+  --about-orbit-spin-duration: 55s;
+}
+
+@keyframes orbit-dashed-revolve {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-dashed-revolve-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/**
+ * Plain classes (not @layer utilities) so animations always emit in Tailwind v4 builds.
+ */
+.about-orbit-ring-spin {
+  transform-origin: center;
+  animation: orbit-dashed-revolve var(--about-orbit-spin-duration) linear infinite;
+}
+
+/** Moves all service arms around the hub; paired with .about-orbit-service-counter. */
+.about-orbit-services-spin {
+  transform-origin: center center;
+  animation: orbit-dashed-revolve var(--about-orbit-spin-duration) linear infinite;
+}
+
+/**
+ * Cancels parent spin so cards stay level in the viewport (same duration as orbit).
+ * Inner markup adds rotate(-angle) to undo radial placement tilt.
+ */
+.about-orbit-service-counter {
+  transform-origin: center center;
+  animation: orbit-dashed-revolve-reverse var(--about-orbit-spin-duration) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-orbit-ring-spin,
+  .about-orbit-services-spin,
+  .about-orbit-service-counter {
+    animation: none;
+  }
+}
+
+/* —— Home Process preview: flowing connector + arrow nudge —— */
+@keyframes process-flow-shimmer-h {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes process-flow-shimmer-v {
+  0% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 50% 200%;
+  }
+}
+
+@keyframes process-arrow-nudge-h {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.88;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 1;
+  }
+}
+
+@keyframes process-arrow-nudge-v {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.88;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+.process-flow-track-h {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--primary) 15%, transparent),
+    color-mix(in oklch, var(--primary) 65%, transparent),
+    color-mix(in oklch, var(--primary) 15%, transparent)
+  );
+  background-size: 200% 100%;
+  animation: process-flow-shimmer-h 3.2s linear infinite;
+}
+
+.process-flow-track-v {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--primary) 12%, transparent),
+    color-mix(in oklch, var(--primary) 55%, transparent),
+    color-mix(in oklch, var(--primary) 12%, transparent)
+  );
+  background-size: 100% 200%;
+  animation: process-flow-shimmer-v 3.2s linear infinite;
+}
+
+.process-flow-arrow-h {
+  animation: process-arrow-nudge-h 2.4s ease-in-out infinite;
+}
+
+.process-flow-arrow-v {
+  animation: process-arrow-nudge-v 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-flow-track-h,
+  .process-flow-track-v {
+    animation: none;
+    background: color-mix(in oklch, var(--primary) 35%, transparent);
+    background-size: auto;
+  }
+
+  .process-flow-arrow-h,
+  .process-flow-arrow-v {
+    animation: none;
+  }
+}
+
+/* Home services snapshot: infinite horizontal marquee (duplicate track = seamless loop) */
+@keyframes services-marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.services-marquee-group:hover .services-marquee-track {
+  animation-play-state: paused;
+}
+
+.services-marquee-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 4%,
+    black 96%,
+    transparent
+  );
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+
+.services-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: services-marquee-scroll 75s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-marquee-track {
+    animation: none;
+    width: 100% !important;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.75rem;
+  }
+
+  .services-marquee-track ul:last-child {
+    display: none;
+  }
+
+  .services-marquee-track ul:first-of-type {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    row-gap: 0.75rem;
+  }
+}
+
+/* FAQ: smooth expand (grid rows) + answer text ease-in */
+.faq-answer-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+details.faq-details[open] > .faq-answer-grid {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-answer-grid {
+    transition-duration: 0.01ms;
+  }
+}
+
+@keyframes faq-answer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  details.faq-details[open] .faq-answer-body {
+    animation: faq-answer-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
   }
 }
 
@@ -164,5 +393,10 @@
   }
   .animate-hero-delay-4 {
     animation-delay: 0.42s;
+  }
+
+  /** Full-bleed horizontal layout: edge-to-edge content with responsive gutters (no max-w-6xl cap). */
+  .site-container {
+    @apply mx-auto w-full max-w-none px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-24;
   }
 }

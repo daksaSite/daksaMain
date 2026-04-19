@@ -14,12 +14,12 @@ import { SERVICES } from "@/lib/site-content";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Digital marketing, content, web, SEO, branding, lead generation, and more—customized for your goals. Daksa Digital Pvt. Ltd.",
+    "Digital marketing, content, social, web, SEO, branding, lead generation, and more—tailored to your goals. Daksa Digital Pvt. Ltd., Noida.",
 };
 
 export default function ServicesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div className="site-container py-16 sm:py-20">
       <PageIntro
         eyebrow="Services"
         title="Everything you need to show up, persuade, and convert—without juggling five vendors."

@@ -4,6 +4,7 @@ import { DM_Sans, Geist_Mono, Montserrat } from "next/font/google";
 import { SiteBackground } from "@/components/site-background";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { TopBar } from "@/components/top-bar";
 
 import "./globals.css";
 
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <div className="relative flex min-h-full flex-1 flex-col">
           <SiteBackground />
+          <TopBar />
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
           <SiteFooter />
