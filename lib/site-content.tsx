@@ -116,6 +116,14 @@ export const TESTIMONIALS = [
     quote:
       "Highly recommended for businesses looking for reliable digital services and professional support.",
   },
+  {
+    quote:
+      "Daksa Digital transformed our online presence. Their SEO strategy brought us consistent organic traffic within just a few months of engagement.",
+  },
+  {
+    quote:
+      "What sets them apart is how well they listen. They took time to understand our brand before executing — and it showed in every deliverable.",
+  },
 ] as const;
 
 /** Home FAQ strip (also reusable on a dedicated FAQ page later). */

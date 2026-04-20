@@ -292,6 +292,39 @@
   }
 }
 
+/* Words marquee: Thrive / Lead / Win / Grow — right-to-left, edge fade */
+@keyframes words-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.words-marquee-wrap {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.words-marquee-track {
+  animation: words-marquee-scroll 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .words-marquee-track {
+    animation: none;
+  }
+}
+
 /* Home services snapshot: infinite horizontal marquee (duplicate track = seamless loop) */
 @keyframes services-marquee-scroll {
   to {

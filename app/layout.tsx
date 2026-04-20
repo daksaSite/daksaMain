@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Geist_Mono, Montserrat } from "next/font/google";
 
+import { BackToTop } from "@/components/back-to-top";
+import { CookieBanner } from "@/components/cookie-banner";
 import { SiteBackground } from "@/components/site-background";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -51,6 +53,8 @@ export default function RootLayout({
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
           <SiteFooter />
+          <BackToTop />
+          <CookieBanner />
         </div>
       </body>
     </html>

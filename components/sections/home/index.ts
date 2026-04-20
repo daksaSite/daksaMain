@@ -9,3 +9,4 @@ export { ProcessPreviewSection } from "./process";
 export { ServicesMarqueeSection } from "./services-marquee";
 export { TestimonialPreviewSection } from "./testimonials";
 export { WhyUsSection } from "./why-us";
+export { WordsMarqueeSection } from "./words-marquee";

@@ -5,9 +5,9 @@ import {
   ExploreSection,
   HeroSection,
   PartnerModelCard,
-  HomeCtaSection,
   PricingTeaserSection,
   HomeFaqSection,
+  WordsMarqueeSection,
   ProcessPreviewSection,
   ServicesMarqueeSection,
   TestimonialPreviewSection,
@@ -40,9 +40,9 @@ export default function Home() {
       <ServicesMarqueeSection />
       <TestimonialPreviewSection />
       <HomeFaqSection />
+      <WordsMarqueeSection />
       {/* <PricingTeaserSection /> */}
       {/* <ExploreSection /> */}
-      <HomeCtaSection />
     </>
   );
 }

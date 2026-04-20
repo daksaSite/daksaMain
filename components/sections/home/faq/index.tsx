@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function HomeFaqSection() {
   return (
     <section
-      className="relative overflow-hidden border-b border-border/60 bg-background"
+      className="relative overflow-hidden bg-[color-mix(in_oklch,var(--brand-navy)_6%,white)]"
       aria-labelledby="home-faq-heading"
     >
       <div
