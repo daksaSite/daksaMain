@@ -186,24 +186,18 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-[var(--brand-navy)] to-[color-mix(in_srgb,var(--brand-navy)_85%,#32375f)] p-8 md:p-10">
               <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-primary/10 blur-3xl" aria-hidden />
               <div className="relative">
-                <p className="font-heading text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                  Mission
-                </p>
-                <h3 className="mt-3 font-heading text-xl font-bold text-white sm:text-2xl">
-                  Empowering brands to grow with purpose.
+                <h3 className="font-heading text-lg font-bold text-white sm:text-xl">
+                  Our Mission
                 </h3>
-                <p className="mt-4 text-[0.9375rem] leading-relaxed text-white/65">{MISSION}</p>
+                <p className="mt-4 text-[0.9375rem] leading-relaxed text-white/70">{MISSION}</p>
               </div>
             </div>
 
             <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card p-8 md:p-10">
               <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-primary/5 blur-3xl" aria-hidden />
               <div className="relative">
-                <p className="font-heading text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-primary">
-                  Vision
-                </p>
-                <h3 className="mt-3 font-heading text-xl font-bold text-foreground sm:text-2xl">
-                  India's most trusted digital growth partner.
+                <h3 className="font-heading text-lg font-bold text-foreground sm:text-xl">
+                  Our Vision
                 </h3>
                 <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted-foreground">{VISION}</p>
               </div>
