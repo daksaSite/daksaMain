@@ -35,7 +35,7 @@ export function WhyUsSection() {
       <div className="site-container relative py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-none lg:text-left">
           <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] text-primary sm:text-lg lg:text-xl">
-            About Daksa Digital
+            Why us
           </p>
           <h2
             id="why-us-heading"

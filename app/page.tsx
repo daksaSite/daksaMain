@@ -37,7 +37,7 @@ export default function Home() {
       <AboutPreviewSection />
       <WhyUsSection />
       <ProcessPreviewSection />
-      <ServicesMarqueeSection />
+      {/* <ServicesMarqueeSection /> */}
       <TestimonialPreviewSection />
       <HomeFaqSection />
       <WordsMarqueeSection />

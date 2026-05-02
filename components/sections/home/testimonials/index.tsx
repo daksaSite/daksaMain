@@ -1,9 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
+import { TestimonialCard } from "@/components/testimonial-card";
 import { Button } from "@/components/ui/button";
 import { TESTIMONIALS } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
@@ -37,8 +38,11 @@ export function TestimonialPreviewSection() {
   const scroll = (dir: "left" | "right") => {
     const el = trackRef.current;
     if (!el) return;
-    const cardW = el.querySelector("li")?.clientWidth ?? 380;
-    el.scrollBy({ left: dir === "right" ? cardW + 24 : -(cardW + 24), behavior: "smooth" });
+    const cardW = el.querySelector("li")?.clientWidth ?? 400;
+    el.scrollBy({
+      left: dir === "right" ? cardW + 24 : -(cardW + 24),
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -52,7 +56,6 @@ export function TestimonialPreviewSection() {
       />
 
       <div className="site-container relative py-16 sm:py-20 lg:py-24">
-        {/* Header */}
         <div className="mb-10 flex flex-col gap-6 sm:mb-12 lg:mb-14 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="max-w-2xl space-y-3 lg:space-y-4">
             <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] text-primary sm:text-lg lg:text-xl">
@@ -65,48 +68,43 @@ export function TestimonialPreviewSection() {
               Trusted by teams who value follow-through
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-              A quick read. Full testimonials and more context are on the dedicated page.
+              Real feedback from leaders we&apos;ve partnered with—ratings,
+              roles, and what stood out for them.
             </p>
           </div>
-          <Button variant="outline" className="h-12 w-fit shrink-0 px-7 text-[0.9375rem] font-semibold" asChild>
+          <Button
+            variant="outline"
+            className="h-12 w-fit shrink-0 px-7 text-[0.9375rem] font-semibold"
+            asChild
+          >
             <Link href="/testimonials">All testimonials</Link>
           </Button>
         </div>
 
-        {/* Carousel */}
         <div
           className="group/carousel relative"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
-          {/* Scroll track */}
           <ul
             ref={trackRef}
             className="flex gap-6 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-7"
           >
-            {TESTIMONIALS.map(({ quote }, i) => (
-              <li key={i} className="w-[min(82vw,380px)] shrink-0 sm:w-[min(60vw,420px)] lg:w-[min(38vw,440px)]">
-                <blockquote
-                  className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-gradient-to-b from-card to-muted/25 p-6 sm:p-7"
-                >
-                  <div className="relative mb-5 sm:mb-6">
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15 sm:h-12 sm:w-12">
-                      <Quote className="size-5 sm:size-6" strokeWidth={1.75} aria-hidden />
-                    </span>
-                  </div>
-                  <p className="relative flex-1 text-base leading-[1.7] text-foreground/95 sm:text-lg">
-                    &ldquo;{quote}&rdquo;
-                  </p>
-                  <div
-                    className="mt-6 h-px w-10 rounded-full bg-gradient-to-r from-primary/60 to-primary/10 sm:mt-7"
-                    aria-hidden
-                  />
-                </blockquote>
+            {TESTIMONIALS.map((t, i) => (
+              <li
+                key={`${t.name}-${i}`}
+                className="w-[min(88vw,400px)] shrink-0 sm:w-[min(68vw,440px)] lg:w-[min(42vw,480px)]"
+              >
+                <TestimonialCard
+                  quote={t.quote}
+                  name={t.name}
+                  designation={t.designation}
+                  rating={t.rating}
+                />
               </li>
             ))}
           </ul>
 
-          {/* Left arrow */}
           <button
             type="button"
             onClick={() => scroll("left")}
@@ -114,13 +112,14 @@ export function TestimonialPreviewSection() {
             className={cn(
               "absolute -left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-all duration-200",
               "hover:border-primary/40 hover:bg-primary hover:text-white",
-              hovered && canScrollLeft ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 pointer-events-none",
+              hovered && canScrollLeft
+                ? "pointer-events-auto translate-x-0 opacity-100"
+                : "pointer-events-none -translate-x-2 opacity-0",
             )}
           >
             <ChevronLeft className="size-5" />
           </button>
 
-          {/* Right arrow */}
           <button
             type="button"
             onClick={() => scroll("right")}
@@ -128,13 +127,14 @@ export function TestimonialPreviewSection() {
             className={cn(
               "absolute -right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-all duration-200",
               "hover:border-primary/40 hover:bg-primary hover:text-white",
-              hovered && canScrollRight ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2 pointer-events-none",
+              hovered && canScrollRight
+                ? "pointer-events-auto translate-x-0 opacity-100"
+                : "pointer-events-none translate-x-2 opacity-0",
             )}
           >
             <ChevronRight className="size-5" />
           </button>
 
-          {/* Edge fade masks */}
           <div
             className={cn(
               "pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-muted/50 to-transparent transition-opacity duration-200",

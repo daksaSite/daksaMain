@@ -1,73 +1,87 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 import { HOME_FAQ } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
 
-/** Homepage FAQ: compact grid on large screens so the block feels shorter. */
+/** Homepage FAQ: six essentials only; heading left, accordions right on large screens. */
 export function HomeFaqSection() {
   return (
     <section
-      className="relative overflow-hidden bg-[color-mix(in_oklch,var(--brand-navy)_6%,white)]"
+      className="relative overflow-hidden border-b border-border/60 bg-muted/25"
       aria-labelledby="home-faq-heading"
     >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(85%_60%_at_100%_-15%,rgba(233,30,67,0.08),transparent_55%)]"
+        aria-hidden
+      />
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent"
         aria-hidden
       />
 
-      <div className="site-container relative py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto mb-6 max-w-2xl text-center sm:mb-8 lg:mb-9">
-          <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:text-base lg:text-lg">
-            FAQ
-          </p>
-          <h2
-            id="home-faq-heading"
-            className="mt-2 font-heading text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:mt-2.5 lg:text-[2rem] lg:leading-tight"
-          >
-            Common questions, straight answers
-          </h2>
-          <p className="mt-2 text-sm leading-snug text-muted-foreground sm:mt-2.5 sm:text-base">
-            Quick answers below. For detail,{" "}
-            <Link href="/contact" className="font-medium text-primary underline-offset-4 hover:underline">
-              contact us
-            </Link>
-            .
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-5xl items-start gap-2 sm:gap-2.5 md:grid-cols-2 md:gap-x-4 md:gap-y-2.5 lg:max-w-6xl">
-          {HOME_FAQ.map(({ q, a }, i) => (
-            <details
-              key={`home-faq-${i}`}
-              className={cn(
-                "faq-details group w-full min-w-0 self-start rounded-xl border border-border/70 bg-card/80 shadow-sm ring-1 ring-foreground/[0.04] transition-[border-color,box-shadow] duration-300",
-                "open:border-primary/25 open:bg-card open:shadow-md open:ring-primary/10",
-              )}
+      <div className="site-container relative py-12 sm:py-16 lg:py-20">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-14 xl:gap-20">
+          <header className="mx-auto max-w-xl text-center lg:mx-0 lg:w-[min(100%,26rem)] lg:max-w-none lg:shrink-0 lg:sticky lg:top-28 lg:self-start lg:text-left">
+            <div className="inline-flex items-center justify-center gap-2 text-primary lg:justify-start">
+              <HelpCircle className="size-[1.125rem] shrink-0 sm:size-5" aria-hidden />
+              <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] sm:text-lg lg:text-xl">
+                FAQ
+              </p>
+            </div>
+            <h2
+              id="home-faq-heading"
+              className="mt-4 font-heading text-balance text-3xl font-bold tracking-tight text-[var(--brand-navy)] sm:text-4xl lg:mt-5 lg:text-[2.35rem] lg:leading-[1.12]"
             >
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-3 px-4 py-3 text-left outline-none [&::-webkit-details-marker]:hidden sm:px-4 sm:py-3.5">
-                <span className="min-w-0 font-heading text-[0.9375rem] font-semibold leading-snug tracking-tight text-foreground sm:text-base">
-                  <span className="mr-1.5 inline-block w-6 shrink-0 font-mono text-[0.65rem] font-bold tabular-nums text-primary/80 sm:w-7 sm:text-xs">
-                    {String(i + 1).padStart(2, "0")}
+              Common questions, straight answers
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Straightforward guidance on how we work, scope, and outcomes. Need
+              something specific?{" "}
+              <Link
+                href="/contact"
+                className="font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                Contact us
+              </Link>
+              —we&apos;ll point you in the right direction.
+            </p>
+          </header>
+
+          <div className="min-w-0 flex-1 space-y-2.5 sm:space-y-3">
+            {HOME_FAQ.map(({ q, a }, i) => (
+              <details
+                key={`home-faq-${i}`}
+                className={cn(
+                  "faq-details group w-full min-w-0 rounded-2xl border border-border/70 bg-card/85 shadow-[0_12px_36px_-22px_rgba(26,27,53,0.16)] ring-1 ring-foreground/[0.04] backdrop-blur-sm transition-[border-color,box-shadow] duration-300",
+                  "open:border-primary/30 open:bg-card open:shadow-[0_18px_44px_-22px_rgba(26,27,53,0.22)] open:ring-primary/12",
+                  "hover:border-primary/15",
+                )}
+              >
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-4 py-3.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/40 [&::-webkit-details-marker]:hidden sm:px-5 sm:py-4">
+                  <span className="min-w-0 font-heading text-[0.9375rem] font-semibold leading-snug tracking-tight text-foreground sm:text-base">
+                    <span className="mr-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 font-mono text-[0.65rem] font-bold tabular-nums text-primary ring-1 ring-primary/12 sm:h-8 sm:w-8 sm:text-xs">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {q}
                   </span>
-                  {q}
-                </span>
-                <ChevronDown
-                  className="mt-0.5 size-[1.125rem] shrink-0 text-primary transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:rotate-180 motion-reduce:duration-200"
-                  aria-hidden
-                />
-              </summary>
-              <div className="faq-answer-grid">
-                <div className="min-h-0 overflow-hidden">
-                  <div className="border-t border-border/50 px-4 pb-3.5 pt-0 sm:px-4">
-                    <p className="faq-answer-body pt-2.5 text-[0.8125rem] leading-snug text-muted-foreground sm:text-sm sm:leading-relaxed">
-                      {a}
-                    </p>
+                  <ChevronDown
+                    className="mt-0.5 size-[1.125rem] shrink-0 text-primary transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:rotate-180 motion-reduce:duration-200"
+                    aria-hidden
+                  />
+                </summary>
+                <div className="faq-answer-grid">
+                  <div className="min-h-0 overflow-hidden">
+                    <div className="border-t border-border/50 px-4 pb-4 pt-0 sm:px-5">
+                      <p className="faq-answer-body pt-3 text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
+                        {a}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </details>
-          ))}
+              </details>
+            ))}
+          </div>
         </div>
       </div>
     </section>

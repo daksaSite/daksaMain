@@ -29,6 +29,8 @@ export const MEDIA = {
     process: "/images/process",
     testimonials: "/images/testimonials",
     pricing: "/images/pricing",
+    /** Pricing page hero / visual */
+    pricingHero: "/images/pricing/pricing.png",
     contact: "/images/contact",
     logo: "/images/logo",
     /** Primary navbar / header logo */
@@ -41,6 +43,9 @@ export const MEDIA = {
     hero3: "/images/hero/hero3.png",
     hero4: "/images/hero/hero4.png",
     hero5: "/images/hero/hero5.png",
+    hero6: "/images/hero/hero6.png",
+    hero7: "/images/hero/hero7.png",
+    hero8: "/images/hero/hero8.png",
   },
   videos: {
     root: "/videos",
@@ -53,6 +58,7 @@ export const MEDIA = {
 
 /** Ordered slides for hero carousels or galleries (URLs include cache-bust query). */
 export const HERO_HOME_IMAGES = [
+  withHeroImageCacheBust(MEDIA.images.hero6),
   withHeroImageCacheBust(MEDIA.images.hero5),
   withHeroImageCacheBust(MEDIA.images.hero3),
   withHeroImageCacheBust(MEDIA.images.hero2),

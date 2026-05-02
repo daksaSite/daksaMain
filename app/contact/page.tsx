@@ -1,44 +1,204 @@
 import type { Metadata } from "next";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { ContactDetails } from "@/components/contact-details";
 import { InquiryForm } from "@/components/inquiry-form";
-import { PageIntro } from "@/components/page-intro";
+import { Button } from "@/components/ui/button";
+import { CONTACT } from "@/lib/site-content";
+import { MEDIA } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Reach Daksa Digital in Noida—phone, email, and inquiry form. Office at Sector 63, G Block.",
+    "Reach Daksa Digital in Noida — phone, email, inquiry form, and directions to Sector 63, G Block.",
 };
+
+const MAP_EMBED_SRC =
+  "https://maps.google.com/maps?q=28.6164226,77.3905024&z=17&hl=en&output=embed";
 
 export default function ContactPage() {
   return (
-    <div className="site-container py-16 sm:py-20">
-      <PageIntro
-        eyebrow="Contact"
-        title="Let’s talk about your roadmap, timelines, and what “success” looks like."
-        description="Use the form for structured inquiries—we’ll route it to the right people. Prefer voice? Call or email us directly."
-        className="mb-14 md:mb-20"
-      />
+    <div>
 
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 lg:items-start">
-        <aside className="lg:sticky lg:top-24">
-          <h2 className="font-heading text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Direct lines
-          </h2>
-          <div className="mt-6">
-            <ContactDetails />
-          </div>
-        </aside>
+      {/* ── Hero ── */}
+      <section className="relative min-h-[46vh] overflow-hidden bg-[var(--brand-navy)] sm:min-h-[50vh] lg:min-h-[52vh]">
+        <Image
+          src={MEDIA.images.hero8}
+          alt="Partners collaborating — contact Daksa Digital"
+          fill
+          quality={100}
+          priority
+          className="object-cover object-center opacity-25"
+          sizes="100vw"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[var(--brand-navy)]/55 via-transparent to-[var(--brand-navy)]/88"
+          aria-hidden
+        />
 
-        <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-lg ring-1 ring-foreground/[0.03] sm:p-8 md:p-10">
-          <h2 className="font-heading text-xl font-semibold">Inquiry form</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Share context on your business and goals—the more specific, the
-            faster we can respond with useful next steps.
+        <div className="site-container relative flex min-h-[46vh] flex-col justify-end pb-12 pt-24 sm:min-h-[50vh] sm:pb-14 sm:pt-28 lg:min-h-[52vh] lg:pb-16">
+          <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
+            Contact
           </p>
-          <InquiryForm className="mt-8" />
+          <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
+            Tell us what you&apos;re building — we&apos;ll reply with clear next steps.
+          </h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/72 sm:mt-5 sm:text-lg">
+            Form submissions go straight to our inbox. Prefer voice? Call or email — same team,
+            no hand-offs.
+          </p>
         </div>
-      </div>
+      </section>
+
+      {/* ── Form + details ── */}
+      <section className="border-b border-border/60 bg-background" aria-labelledby="contact-form-heading">
+        <div className="site-container py-14 sm:py-20 lg:py-24">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 lg:items-start">
+
+            {/* Left — channels */}
+            <div className="lg:col-span-5">
+              <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                Ways to reach us
+              </h2>
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">
+                Based in Noida — we work with teams across India and remotely.
+              </p>
+
+              <ul className="mt-10 space-y-8">
+                <li className="flex gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/10">
+                    <MapPin className="size-5" aria-hidden />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-heading text-sm font-semibold text-foreground">
+                      Office
+                    </p>
+                    <p className="mt-1 leading-relaxed text-muted-foreground">{CONTACT.address}</p>
+                    <Button variant="link" className="mt-2 h-auto p-0 text-primary" asChild>
+                      <a
+                        href={CONTACT.googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-semibold"
+                      >
+                        Open in Google Maps
+                        <ArrowUpRight className="size-4" aria-hidden />
+                      </a>
+                    </Button>
+                  </div>
+                </li>
+
+                <li className="flex gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/10">
+                    <Phone className="size-5" aria-hidden />
+                  </span>
+                  <div>
+                    <p className="font-heading text-sm font-semibold text-foreground">
+                      Phone
+                    </p>
+                    <a
+                      href={CONTACT.phoneHref}
+                      className="mt-1 inline-block font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      +91 {CONTACT.phone}
+                    </a>
+                  </div>
+                </li>
+
+                <li className="flex gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/10">
+                    <Mail className="size-5" aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-heading text-sm font-semibold text-foreground">
+                      Email
+                    </p>
+                    <a
+                      href={`mailto:${CONTACT.email}`}
+                      className="mt-1 inline-block break-all font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      {CONTACT.email}
+                    </a>
+                  </div>
+                </li>
+              </ul>
+
+              <div className="mt-10 rounded-2xl border border-border/70 bg-muted/25 px-5 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Website
+                </p>
+                <Link
+                  href={CONTACT.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-1 font-heading font-semibold text-foreground hover:text-primary"
+                >
+                  {CONTACT.websiteLabel}
+                  <ArrowUpRight className="size-4 opacity-70" aria-hidden />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — form */}
+            <div className="lg:col-span-7">
+              <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm ring-1 ring-foreground/[0.03] sm:p-8 lg:p-10">
+                <h2
+                  id="contact-form-heading"
+                  className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl"
+                >
+                  Send an inquiry
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
+                  Share your goals and timeline — the more context you give, the faster we can come
+                  back with something useful.
+                </p>
+                <InquiryForm className="mt-8" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── Map ── */}
+      <section className="border-b border-border/60 bg-muted/15" aria-labelledby="map-heading">
+        <div className="site-container py-14 sm:py-20 lg:py-20">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2
+                id="map-heading"
+                className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl"
+              >
+                Find us
+              </h2>
+              <p className="mt-1 max-w-lg text-sm text-muted-foreground sm:text-base">
+                Sector 63, G Block — same pin as Google Maps for directions and navigation.
+              </p>
+            </div>
+            <Button variant="outline" className="w-fit shrink-0 gap-1.5" asChild>
+              <a href={CONTACT.googleMapsUrl} target="_blank" rel="noopener noreferrer">
+                Google Maps
+                <ArrowUpRight className="size-4" aria-hidden />
+              </a>
+            </Button>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-muted shadow-inner">
+            <div className="aspect-[16/10] min-h-[240px] w-full sm:aspect-[21/9] sm:min-h-[280px] lg:min-h-[320px]">
+              <iframe
+                title="Daksa Digital office location on Google Maps"
+                src={MAP_EMBED_SRC}
+                className="size-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

@@ -14,6 +14,14 @@ export function ContactDetails() {
             Office
           </p>
           <p className="mt-1 leading-relaxed">{CONTACT.address}</p>
+          <a
+            className="mt-2 inline-block text-sm text-primary underline-offset-4 hover:underline"
+            href={CONTACT.googleMapsUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Open in Google Maps
+          </a>
         </div>
       </div>
       <div className="flex gap-4">

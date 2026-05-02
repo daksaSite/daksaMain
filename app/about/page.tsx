@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import {
   BarChart3,
-  CheckCircle2,
   Lightbulb,
   MapPin,
   MessageCircle,
   Rocket,
   ShieldCheck,
-  Target,
+  Sparkles,
+  Store,
+  TrendingUp,
   Users,
 } from "lucide-react";
 import Image from "next/image";
@@ -20,7 +21,6 @@ import {
   MISSION,
   PRIORITIES,
   VISION,
-  WHO_WE_WORK_WITH,
   WHY_POINTS,
 } from "@/lib/site-content";
 
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 id="story-heading"
                 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem] lg:leading-tight"
               >
-                Built to deliver what brands actually need — results, not just reports.
+                Built to deliver what brands actually need results, not just reports.
               </h2>
               <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">
                 {ABOUT_PARAGRAPHS.map((p, i) => (
@@ -243,40 +243,58 @@ export default function AboutPage() {
       {/* ── Why us + Priorities ── */}
       <section className="border-b border-border/60 bg-background" aria-labelledby="why-heading">
         <div className="site-container py-16 sm:py-20 lg:py-24">
-          <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
 
-            <div>
-              <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
-                Why Daksa
-              </p>
-              <h2
-                id="why-heading"
-                className="mt-2.5 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]"
-              >
+          {/* Section header */}
+          <div className="mb-12 lg:mb-16">
+            <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
+              Why Daksa
+            </p>
+            <h2
+              id="why-heading"
+              className="mt-2.5 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]"
+            >
+              Built different by design
+            </h2>
+          </div>
+
+          <div className="grid gap-0 lg:grid-cols-2">
+
+            {/* Left — What makes us different */}
+            <div className="border-border/60 pr-0 lg:border-r lg:pr-16">
+              <p className="mb-7 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 What makes us different
-              </h2>
-              <ul className="mt-8 space-y-4">
-                {WHY_POINTS.map((t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
-                    <span className="text-base font-medium leading-snug text-foreground">{t}</span>
+              </p>
+              <ul className="space-y-0 divide-y divide-border/50">
+                {WHY_POINTS.map((t, i) => (
+                  <li key={t} className="flex items-center gap-5 py-5">
+                    <span className="font-heading text-[2rem] font-extrabold leading-none tracking-tight text-primary/20 sm:text-[2.25rem]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-base font-semibold leading-snug text-foreground sm:text-[1.0625rem]">
+                      {t}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
-                Our focus
-              </p>
-              <h2 className="mt-2.5 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]">
+            {/* Divider on mobile */}
+            <div className="my-10 border-t border-border/60 lg:hidden" aria-hidden />
+
+            {/* Right — What we prioritize */}
+            <div className="pl-0 lg:pl-16">
+              <p className="mb-7 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 What we prioritize
-              </h2>
-              <ul className="mt-8 space-y-4">
-                {PRIORITIES.map((t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <Target className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
-                    <span className="text-base leading-snug text-muted-foreground">{t}</span>
+              </p>
+              <ul className="space-y-0 divide-y divide-border/50">
+                {PRIORITIES.map((t, i) => (
+                  <li key={t} className="flex items-center gap-5 py-5">
+                    <span className="font-heading text-[2rem] font-extrabold leading-none tracking-tight text-[var(--brand-navy)]/15 sm:text-[2.25rem]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-base leading-snug text-muted-foreground sm:text-[1.0625rem]">
+                      {t}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -289,7 +307,8 @@ export default function AboutPage() {
       {/* ── Who we work with ── */}
       <section className="border-b border-border/60 bg-muted/20" aria-labelledby="audience-heading">
         <div className="site-container py-16 sm:py-20 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center">
+
+          <div className="mb-10 text-center sm:mb-12 lg:mb-14">
             <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
               Our clients
             </p>
@@ -299,13 +318,51 @@ export default function AboutPage() {
             >
               Who we work with
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {WHO_WE_WORK_WITH}
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              From early-stage startups finding their voice to established brands looking to sharpen their digital edge — we bring the same level of strategic thinking and creative execution to every engagement.
-            </p>
           </div>
+
+          {/* Audience type cards */}
+          <div className="grid gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
+            {[
+              {
+                icon: Sparkles,
+                label: "Startups",
+                desc: "Early-stage brands finding their voice and carving out space in a crowded market.",
+              },
+              {
+                icon: TrendingUp,
+                label: "Growing businesses",
+                desc: "Scaling teams that need strategic digital execution to match their ambition.",
+              },
+              {
+                icon: Store,
+                label: "Established brands",
+                desc: "Mature businesses looking to sharpen their digital edge and stay ahead.",
+              },
+            ].map(({ icon: Icon, label, desc }) => (
+              <div
+                key={label}
+                className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 sm:p-7"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon className="size-5" aria-hidden />
+                </span>
+                <div>
+                  <p className="font-heading text-base font-bold text-foreground sm:text-[1.0625rem]">
+                    {label}
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+           {/* 
+          <p className="mx-auto mt-10 max-w-2xl text-center text-base leading-relaxed text-muted-foreground sm:mt-12 sm:text-[1.0625rem]">
+            {WHO_WE_WORK_WITH} From early-stage startups finding their voice to established brands
+            looking to sharpen their digital edge — we bring the same level of strategic thinking
+            and creative execution to every engagement.
+          </p> */}
+
         </div>
       </section>
 

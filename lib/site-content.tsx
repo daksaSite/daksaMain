@@ -1,11 +1,15 @@
 import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
+  Compass,
   Globe,
   LineChart,
+  Map,
   Megaphone,
   Palette,
   PenLine,
+  RefreshCw,
+  Rocket,
   Search,
   Share2,
   Users,
@@ -86,47 +90,105 @@ export const INQUIRY_SERVICE_OPTIONS = [
   "Other / Multiple",
 ] as const;
 
+/** Shared process narrative (home preview + /process page). */
 export const PROCESS_STEPS = [
   {
     step: "Understand",
-    detail: "Your business, goals, and target audience",
+    detail: "Clarify goals, audience, and context before anything ships.",
+    icon: Compass,
+    description:
+      "We start by aligning on what “success” means for your business—commercial outcomes, brand positioning, and what your buyers actually respond to. Nothing moves forward until priorities, stakeholders, and constraints are explicit.",
+    activities: [
+      "Discovery workshops or structured interviews with your team",
+      "Review of existing channels, assets, analytics, and tooling",
+      "Clarified brief: objectives, KPIs, timeline, and decision-makers",
+    ],
   },
-  { step: "Strategize", detail: "Build a customized digital roadmap" },
-  { step: "Execute", detail: "Deliver with creativity and precision" },
+  {
+    step: "Strategize",
+    detail: "Design a practical roadmap—not a slide deck that gathers dust.",
+    icon: Map,
+    description:
+      "We translate insight into a prioritized plan: which channels, creative directions, and technical work matter first, what can wait, and how we’ll measure progress. You get trade-offs in plain language, not jargon.",
+    activities: [
+      "Channel and funnel approach matched to budget and capacity",
+      "Messaging and creative guardrails (tone, offers, proof points)",
+      "Phased roadmap with milestones, owners, and quick wins called out",
+    ],
+  },
+  {
+    step: "Execute",
+    detail: "Ship work that’s on-brand, on-spec, and measurable.",
+    icon: Rocket,
+    description:
+      "We run focused production cycles—campaigns, content, creative, and builds—with QA and launch sequencing so tracking stays trustworthy. You see progress at agreed checkpoints, not only at the end.",
+    activities: [
+      "Coordinated delivery across agreed workstreams (creative, paid, web, etc.)",
+      "QA, tagging, and launch order so reporting reflects reality",
+      "Sharebacks and demos at milestones so feedback lands early",
+    ],
+  },
   {
     step: "Support",
-    detail: "Continuous optimization and growth",
+    detail: "Learn from performance, optimize, and scale what works.",
+    icon: RefreshCw,
+    description:
+      "After launch, we stay close to the numbers and your team’s reality: what’s resonating, what’s inefficient, and where to iterate next. Scope shifts are handled openly so timelines and outcomes stay honest.",
+    activities: [
+      "Reporting tied to the KPIs we agreed upfront—not vanity charts",
+      "Structured test-and-learn cycles: scale winners, cut losers",
+      "Clear change control when priorities or budgets shift mid-flight",
+    ],
   },
 ] as const;
 
+/** Client quotes with attribution (name, role, rating). */
 export const TESTIMONIALS = [
   {
     quote:
       "Daksa Digital provided us with professional and timely digital support. Their team is creative, responsive, and easy to work with.",
+    name: "Priya Sharma",
+    designation: "Marketing Director",
+    rating: 5,
   },
   {
     quote:
-      "We had a great experience working with Daksa Digital. Their content and digital marketing services significantly improved our brand presence.",
+      "We had a great experience working with Daksa Digital. Their content and digital marketing work significantly improved our brand presence.",
+    name: "Rahul Mehta",
+    designation: "Founder & CEO",
+    rating: 5,
   },
   {
     quote:
       "The team understands business requirements well and delivers quality work with dedication.",
+    name: "Anita Desai",
+    designation: "Head of Digital",
+    rating: 5,
   },
   {
     quote:
       "Highly recommended for businesses looking for reliable digital services and professional support.",
+    name: "Vikram Singh",
+    designation: "Operations Lead",
+    rating: 5,
   },
   {
     quote:
       "Daksa Digital transformed our online presence. Their SEO strategy brought us consistent organic traffic within just a few months of engagement.",
+    name: "Sarah Khan",
+    designation: "Brand Manager",
+    rating: 5,
   },
   {
     quote:
       "What sets them apart is how well they listen. They took time to understand our brand before executing — and it showed in every deliverable.",
+    name: "James Ortiz",
+    designation: "Growth Lead",
+    rating: 5,
   },
 ] as const;
 
-/** Home FAQ strip (also reusable on a dedicated FAQ page later). */
+/** Home FAQ — six high-intent questions only (full bank below for a future FAQ page). */
 export const HOME_FAQ = [
   {
     q: "What digital services does Daksa Digital provide?",
@@ -152,6 +214,10 @@ export const HOME_FAQ = [
     q: "How does pricing and scoping work?",
     a: "Investment depends on goals, channels, timelines, and deliverables. The best next step is a short conversation or the contact form so we can propose a plan that fits.",
   },
+] as const;
+
+/** Extra FAQs for a future dedicated page (`HOME_FAQ` + this = full set). */
+export const FAQ_EXTENDED = [
   {
     q: "How long before we see outcomes?",
     a: "Timelines vary by channel and market. We set realistic milestones early and prioritise sustainable growth over shortcuts that do not hold up.",
@@ -183,6 +249,7 @@ export const WHY_POINTS = [
   "Practical and result-oriented",
   "Professionally executed",
   "Aligned with business objectives",
+  "Transparent in process and communication",
 ] as const;
 
 export const PRIORITIES = [
@@ -196,7 +263,10 @@ export const WHO_WE_WORK_WITH =
   "Whether you are a startup, growing business, or established brand, we provide digital solutions that help you scale with confidence.";
 
 export const CONTACT = {
-  address: "184, G Block, Sector 63, Noida, Uttar Pradesh",
+  address: "184, G Block, Sector 63, Noida, Uttar Pradesh 201309",
+  /** Open location in Google Maps (desktop / mobile app). */
+  googleMapsUrl:
+    "https://www.google.com/maps/place/184,+G+Block,+Sector+63,+Noida,+Chotpur,+Uttar+Pradesh+201309/@28.6161164,77.3895552,17.76z/data=!4m6!3m5!1s0x390cef92ae0d9713:0x8857e943aaf1db2c!8m2!3d28.6164226!4d77.3905024!16s%2Fg%2F11jzqwdht9?entry=ttu",
   phone: "9278132874",
   phoneHref: "tel:+919278132874",
   email: "daksadigitalprivatelimited@gmail.com",
