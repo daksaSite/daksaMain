@@ -16,6 +16,12 @@ export const metadata: Metadata = {
   title: "Process",
   description:
     "How Daksa Digital runs engagements—from discovery and strategy through execution, measurement, and ongoing optimization—with clear phases and accountable delivery.",
+  keywords: [
+    "Daksa Digital process",
+    "digital marketing workflow",
+    "campaign strategy and execution",
+    "marketing delivery model",
+  ],
 };
 
 const expectations = [

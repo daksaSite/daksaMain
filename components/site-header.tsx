@@ -119,14 +119,14 @@ export function SiteHeader() {
             >
               Testimonials
             </Link>
-            <Link
+            {/* <Link
               href="/our-work"
               className={navPillClass(
                 pathname === "/our-work" || pathname.startsWith("/our-work/")
               )}
             >
               Our work
-            </Link>
+            </Link> */}
             <Link
               href="/contact"
               className={navPillClass(
@@ -203,13 +203,13 @@ export function SiteHeader() {
               >
                 Testimonials
               </Link>
-              <Link
+              {/* <Link
                 href="/our-work"
                 className="block px-3 py-2 text-sm font-semibold text-[var(--brand-navy)]/80 hover:bg-[var(--nav-pill)] hover:text-[var(--brand-navy)]"
                 role="menuitem"
               >
                 Our work
-              </Link>
+              </Link> */}
               <Link
                 href="/contact"
                 className="block px-3 py-2 text-sm font-semibold text-[var(--brand-navy)]/80 hover:bg-[var(--nav-pill)] hover:text-[var(--brand-navy)]"

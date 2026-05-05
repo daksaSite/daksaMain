@@ -2,18 +2,44 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import {
-  ABOUT_PARAGRAPHS,
-  ABOUT_PREVIEW_ORBIT_SERVICES,
-} from "@/lib/site-content";
+import { resolveAboutOrbitIcon } from "@/lib/about-orbit-icons";
+import type { HomeAboutOrbitItem } from "@/lib/sanity.home";
+import { HOME_PAGE_FALLBACK } from "@/lib/sanity.home";
 import { cn } from "@/lib/utils";
 
 /** Degrees on the orbit path: top, lower-right, lower-left. */
 const ORBIT_ANGLES_DEG = [-90, 30, 150] as const;
 
-export function AboutPreviewSection() {
-  const lead = ABOUT_PARAGRAPHS[0];
-  const second = ABOUT_PARAGRAPHS[1];
+const fb = HOME_PAGE_FALLBACK;
+
+export type AboutPreviewSectionProps = {
+  eyebrow?: string;
+  headline?: string;
+  paragraph1?: string;
+  paragraph2?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryLinkLabel?: string;
+  secondaryLinkHref?: string;
+  orbitHeading?: string;
+  orbitFootnote?: string;
+  orbitServices?: HomeAboutOrbitItem[];
+};
+
+export function AboutPreviewSection({
+  eyebrow = fb.aboutEyebrow!,
+  headline = fb.aboutHeadline!,
+  paragraph1 = fb.aboutParagraph1!,
+  paragraph2 = fb.aboutParagraph2!,
+  primaryCtaLabel = fb.aboutPrimaryCtaLabel!,
+  primaryCtaHref = fb.aboutPrimaryCtaHref!,
+  secondaryLinkLabel = fb.aboutSecondaryLinkLabel!,
+  secondaryLinkHref = fb.aboutSecondaryLinkHref!,
+  orbitHeading = fb.aboutOrbitHeading!,
+  orbitFootnote = fb.aboutOrbitFootnote!,
+  orbitServices = fb.aboutOrbitServices!,
+}: AboutPreviewSectionProps) {
+  const services = orbitServices.slice(0, 3);
 
   return (
     <section
@@ -28,7 +54,7 @@ export function AboutPreviewSection() {
         <div className="grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-16 xl:gap-20">
           <div className="space-y-8 lg:col-span-6 xl:col-span-6">
             <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] text-primary sm:text-lg lg:text-xl">
-              About Daksa Digital
+              {eyebrow}
             </p>
             <h2
               id="about-preview-heading"
@@ -37,11 +63,11 @@ export function AboutPreviewSection() {
                 "text-4xl leading-[1.1] sm:text-5xl lg:text-[2.85rem] lg:leading-[1.08]",
               )}
             >
-              Digital growth with strategy, creative, and performance.
+              {headline}
             </h2>
             <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              <p>{lead}</p>
-              <p>{second}</p>
+              <p>{paragraph1}</p>
+              <p>{paragraph2}</p>
             </div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <Button
@@ -49,13 +75,13 @@ export function AboutPreviewSection() {
                 size="lg"
                 asChild
               >
-                <Link href="/about">Read about us</Link>
+                <Link href={primaryCtaHref}>{primaryCtaLabel}</Link>
               </Button>
               <Link
-                href="/services"
+                href={secondaryLinkHref}
                 className="font-heading text-sm font-semibold text-primary underline-offset-4 transition hover:underline"
               >
-                View all services
+                {secondaryLinkLabel}
               </Link>
             </div>
           </div>
@@ -66,7 +92,7 @@ export function AboutPreviewSection() {
               aria-label="Three core services around a globe illustration"
             >
               <p className="mb-6 text-center font-heading text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Core service lines
+                {orbitHeading}
               </p>
 
               <div
@@ -103,12 +129,12 @@ export function AboutPreviewSection() {
 
                 {/* Revolves with dashed ring; counter-spin + rotate(-angle) keeps cards screen-straight */}
                 <div className="about-orbit-services-spin pointer-events-none absolute inset-0 z-20">
-                  {ABOUT_PREVIEW_ORBIT_SERVICES.map((service, i) => {
-                    const Icon = service.icon;
+                  {services.map((service, i) => {
+                    const Icon = resolveAboutOrbitIcon(service.iconKey);
                     const angle = ORBIT_ANGLES_DEG[i];
                     return (
                       <div
-                        key={service.title}
+                        key={`${service.title}-${i}`}
                         className="pointer-events-none absolute left-1/2 top-1/2"
                         style={{
                           transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(calc(-1 * var(--orbit-r)))`,
@@ -123,7 +149,7 @@ export function AboutPreviewSection() {
                             }}
                           >
                             <Link
-                              href="/services"
+                              href={service.href}
                               className={cn(
                                 "flex w-[9.25rem] flex-col items-center gap-1.5 rounded-2xl border border-border/80 bg-card/95 px-2.5 py-2.5 text-center shadow-md ring-1 ring-foreground/[0.05] backdrop-blur-sm transition duration-200",
                                 "hover:border-primary/45 hover:shadow-lg hover:ring-primary/15",
@@ -150,8 +176,7 @@ export function AboutPreviewSection() {
               </div>
 
               <p className="mt-8 text-center text-sm leading-relaxed text-muted-foreground">
-                Mission, vision, and how we work with clients are on the About
-                page. Services link to full detail.
+                {orbitFootnote}
               </p>
             </div>
           </div>

@@ -188,6 +188,9 @@ export const TESTIMONIALS = [
   },
 ] as const;
 
+/** Home testimonial carousel: featured quotes only (full list on `/testimonials`). */
+export const HOME_TESTIMONIALS_PREVIEW = TESTIMONIALS.slice(0, 3);
+
 /** Home FAQ — six high-intent questions only (full bank below for a future FAQ page). */
 export const HOME_FAQ = [
   {

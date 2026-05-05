@@ -11,9 +11,10 @@ import {
 import { Layers, MapPin } from "lucide-react";
 import { useRef } from "react";
 
+import type { PartnerModelStat } from "@/lib/sanity.home";
 import { cn } from "@/lib/utils";
 
-const STATS = [
+const DEFAULT_STATS: PartnerModelStat[] = [
   {
     value: "9+",
     label: "Service lines, full-funnel",
@@ -24,11 +25,23 @@ const STATS = [
     label: "On-site & remote across India",
     accent: true,
   },
-] as const;
+];
+
+export type PartnerModelCardProps = {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+  stats?: PartnerModelStat[];
+};
 
 const SPRING = { stiffness: 280, damping: 28, mass: 0.45 };
 
-export function PartnerModelCard() {
+export function PartnerModelCard({
+  eyebrow = "Partner model",
+  title = "Embedded digital team",
+  body = "Strategy, creative, and analytics, tied to your P&L from discovery through launch and beyond.",
+  stats = DEFAULT_STATS,
+}: PartnerModelCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -96,7 +109,7 @@ export function PartnerModelCard() {
           >
             <div className="space-y-2">
               <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
-                Partner model
+                {eyebrow}
               </p>
               <div className="flex gap-3 sm:gap-4">
                 <span
@@ -110,20 +123,19 @@ export function PartnerModelCard() {
                     id="partner-model-heading"
                     className="font-heading text-lg font-bold tracking-tight text-white sm:text-xl"
                   >
-                    Embedded digital team
+                    {title}
                   </h2>
                   <p className="text-sm leading-snug text-[color-mix(in_oklch,white_76%,transparent)] sm:text-[0.9375rem]">
-                    Strategy, creative, and analytics, tied to your P&amp;L from
-                    discovery through launch and beyond.
+                    {body}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-              {STATS.map(({ value, label, accent }, i) => (
+              {stats.map(({ value, label, accent }, i) => (
                 <div
-                  key={value}
+                  key={`${value}-${i}`}
                   className={cn(
                     "rounded-xl border px-3 py-3 sm:px-4 sm:py-3.5",
                     accent

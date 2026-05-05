@@ -4,7 +4,9 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { HeroImageCarousel } from "./hero-image-carousel";
+import { HeroImageCarousel, type HeroCarouselSlide } from "./hero-image-carousel";
+
+export type { HeroCarouselSlide };
 
 export function HeroSection({
   title,
@@ -14,6 +16,7 @@ export function HeroSection({
   primaryCtaLabel = "Plan a conversation",
   secondaryCtaHref = "/services",
   secondaryCtaLabel = "View capabilities",
+  carouselSlides,
 }: {
   title: ReactNode;
   subtitle: ReactNode;
@@ -22,6 +25,8 @@ export function HeroSection({
   primaryCtaLabel?: string;
   secondaryCtaHref?: string;
   secondaryCtaLabel?: string;
+  /** When set (e.g. from Sanity), overrides default /public hero images. */
+  carouselSlides?: HeroCarouselSlide[];
 }) {
   return (
     <section
@@ -69,7 +74,7 @@ export function HeroSection({
 
         {/* Right: images — full height of hero row */}
         <div className="animate-hero animate-hero-delay-2 relative flex min-h-[min(52vh,22rem)] w-full min-w-0 flex-col lg:min-h-0">
-          <HeroImageCarousel className="min-h-0 flex-1" />
+          <HeroImageCarousel className="min-h-0 flex-1" slides={carouselSlides} />
         </div>
       </div>
     </section>

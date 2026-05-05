@@ -6,10 +6,29 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TestimonialCard } from "@/components/testimonial-card";
 import { Button } from "@/components/ui/button";
-import { TESTIMONIALS } from "@/lib/site-content";
+import type { HomeTestimonial } from "@/lib/sanity.home";
+import { HOME_PAGE_FALLBACK } from "@/lib/sanity.home";
 import { cn } from "@/lib/utils";
 
-export function TestimonialPreviewSection() {
+const fb = HOME_PAGE_FALLBACK;
+
+export type TestimonialPreviewSectionProps = {
+  eyebrow?: string;
+  headline?: string;
+  intro?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  items?: HomeTestimonial[];
+};
+
+export function TestimonialPreviewSection({
+  eyebrow = fb.testimonialsEyebrow!,
+  headline = fb.testimonialsHeadline!,
+  intro = fb.testimonialsIntro!,
+  ctaLabel = fb.testimonialsCtaLabel!,
+  ctaHref = fb.testimonialsCtaHref!,
+  items = fb.testimonialsItems!,
+}: TestimonialPreviewSectionProps) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -59,17 +78,16 @@ export function TestimonialPreviewSection() {
         <div className="mb-10 flex flex-col gap-6 sm:mb-12 lg:mb-14 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="max-w-2xl space-y-3 lg:space-y-4">
             <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] text-primary sm:text-lg lg:text-xl">
-              Social proof
+              {eyebrow}
             </p>
             <h2
               id="testimonial-preview-heading"
               className="font-heading text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[2.35rem] lg:leading-[1.12]"
             >
-              Trusted by teams who value follow-through
+              {headline}
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Real feedback from leaders we&apos;ve partnered with—ratings,
-              roles, and what stood out for them.
+              {intro}
             </p>
           </div>
           <Button
@@ -77,7 +95,7 @@ export function TestimonialPreviewSection() {
             className="h-12 w-fit shrink-0 px-7 text-[0.9375rem] font-semibold"
             asChild
           >
-            <Link href="/testimonials">All testimonials</Link>
+            <Link href={ctaHref}>{ctaLabel}</Link>
           </Button>
         </div>
 
@@ -90,7 +108,7 @@ export function TestimonialPreviewSection() {
             ref={trackRef}
             className="flex gap-6 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-7"
           >
-            {TESTIMONIALS.map((t, i) => (
+            {items.map((t, i) => (
               <li
                 key={`${t.name}-${i}`}
                 className="w-[min(88vw,400px)] shrink-0 sm:w-[min(68vw,440px)] lg:w-[min(42vw,480px)]"

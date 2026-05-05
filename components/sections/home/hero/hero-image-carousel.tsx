@@ -6,10 +6,25 @@ import { useEffect, useState } from "react";
 import { HERO_HOME_IMAGES, HERO_IMAGE_VERSION } from "@/lib/media";
 import { cn } from "@/lib/utils";
 
+export type HeroCarouselSlide = { src: string; alt: string };
+
 const INTERVAL_MS = 5000;
 
-export function HeroImageCarousel({ className }: { className?: string }) {
-  const count = HERO_HOME_IMAGES.length;
+export function HeroImageCarousel({
+  className,
+  slides,
+}: {
+  className?: string;
+  slides?: HeroCarouselSlide[];
+}) {
+  const sources =
+    slides && slides.length > 0
+      ? slides
+      : HERO_HOME_IMAGES.map((src, i) => ({
+          src,
+          alt: `Daksa Digital showcase ${i + 1} of ${HERO_HOME_IMAGES.length}`,
+        }));
+  const count = sources.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -36,17 +51,17 @@ export function HeroImageCarousel({ className }: { className?: string }) {
         aria-label="Featured imagery"
       >
         <div className="relative min-h-0 flex-1">
-          {HERO_HOME_IMAGES.map((src, i) => (
+          {sources.map((item, i) => (
             <div
-              key={`${src}-${HERO_IMAGE_VERSION}`}
+              key={`${item.src}-${HERO_IMAGE_VERSION}-${i}`}
               className={cn(
                 "absolute inset-0",
                 i === index ? "z-[1]" : "z-0"
               )}
             >
               <Image
-                src={src}
-                alt={`Daksa Digital showcase ${i + 1} of ${count}`}
+                src={item.src}
+                alt={item.alt}
                 fill
                 sizes="(max-width: 1023px) 100vw, 50vw"
                 quality={100}

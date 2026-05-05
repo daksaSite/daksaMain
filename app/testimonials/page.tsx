@@ -3,52 +3,45 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Award,
   Globe2,
-  Headphones,
-  MapPin,
   MessageCircle,
   MessageSquareQuote,
-  RefreshCw,
   Sparkles,
   Star,
 } from "lucide-react";
 
 import { TestimonialCard } from "@/components/testimonial-card";
 import { Button } from "@/components/ui/button";
-import { MEDIA, withHeroImageCacheBust } from "@/lib/media";
-import { TESTIMONIALS } from "@/lib/site-content";
+import { getTestimonialsPage } from "@/lib/sanity.testimonials";
+import {
+  resolveTestimonialsStatIcon,
+  resolveTestimonialsTrustIcon,
+} from "@/lib/testimonials-page-icons";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Testimonials",
-  description:
-    "Client feedback, ratings, and how teams experience working with Daksa Digital—strategy, delivery, and long-term partnership.",
-};
+const DEFAULT_META_DESCRIPTION =
+  "Client feedback, ratings, and how teams experience working with Daksa Digital—strategy, delivery, and long-term partnership.";
 
-const WHY_TRUST = [
-  {
-    icon: MessageCircle,
-    title: "Clarity from day one",
-    body: "We align on goals, cadence, and who owns what before the first deliverable—so reviews feel like progress, not surprises.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Iterate with intent",
-    body: "When something works, we scale it; when it doesn’t, we adjust fast—with reporting that matches the KPIs we agreed upfront.",
-  },
-  {
-    icon: Headphones,
-    title: "A partner, not a ticket queue",
-    body: "You get a consistent point of contact and rituals that match your team—async updates, working sessions, and dashboards when they help.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getTestimonialsPage();
+  return {
+    title: page.seoTitle || "Testimonials",
+    description: page.seoDescription || DEFAULT_META_DESCRIPTION,
+    keywords: [
+      "Daksa Digital testimonials",
+      "digital marketing client reviews",
+      "marketing agency feedback",
+      "Noida agency testimonials",
+    ],
+  };
+}
 
-export default function TestimonialsPage() {
-  const n = TESTIMONIALS.length;
+export default async function TestimonialsPage() {
+  const page = await getTestimonialsPage();
+  const n = page.storiesSection.items.length;
   const avg =
     n > 0
-      ? (TESTIMONIALS.reduce((acc, t) => acc + t.rating, 0) / n).toFixed(1)
+      ? (page.storiesSection.items.reduce((acc, t) => acc + t.rating, 0) / n).toFixed(1)
       : "—";
 
   return (
@@ -59,8 +52,8 @@ export default function TestimonialsPage() {
         aria-label="Testimonials intro"
       >
         <Image
-          src={withHeroImageCacheBust(MEDIA.images.hero5)}
-          alt=""
+          src={page.hero.imageSrc}
+          alt={page.hero.imageAlt}
           fill
           quality={100}
           priority
@@ -79,14 +72,13 @@ export default function TestimonialsPage() {
         <div className="site-container relative flex min-h-[48vh] flex-col justify-end pb-12 pt-24 sm:min-h-[52vh] sm:pb-14 sm:pt-28 lg:min-h-[56vh] lg:pb-16 lg:pt-32">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/95 sm:text-sm">
             <Sparkles className="size-4 shrink-0" aria-hidden />
-            <span>Social proof</span>
+            <span>{page.hero.eyebrow}</span>
           </div>
           <h1 className="mt-4 max-w-4xl font-heading text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
-            Real words from leaders who&apos;ve worked with us
+            {page.hero.title}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
-            Ratings, roles, and candid feedback—how teams experience strategy,
-            execution, and ongoing support when Daksa is in the mix.
+            {page.hero.subtitle}
           </p>
 
           <ul className="mt-8 flex flex-wrap gap-3 sm:mt-10">
@@ -100,7 +92,7 @@ export default function TestimonialsPage() {
             </li>
             <li className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm text-white/90 backdrop-blur-sm">
               <Globe2 className="size-4 shrink-0 text-primary" aria-hidden />
-              <span className="font-medium">Partners across India</span>
+              <span className="font-medium">{page.hero.chipThreeText}</span>
             </li>
           </ul>
         </div>
@@ -113,28 +105,11 @@ export default function TestimonialsPage() {
       >
         <div className="site-container">
           <dl className="grid grid-cols-2 divide-x divide-y divide-border/60 lg:grid-cols-4 lg:divide-y-0">
-            {[
-              {
-                icon: MessageSquareQuote,
-                value: String(n),
-                label: "Stories featured",
-              },
-              {
-                icon: Star,
-                value: avg,
-                label: "Average rating",
-              },
-              {
-                icon: MapPin,
-                value: "Noida",
-                label: "HQ & core team",
-              },
-              {
-                icon: Globe2,
-                value: "Pan-India",
-                label: "Where we collaborate",
-              },
-            ].map(({ icon: Icon, value, label }) => (
+            {page.stats.map(({ iconKey, value, label }) => {
+              const Icon = resolveTestimonialsStatIcon(iconKey);
+              const displayValue =
+                label.toLowerCase().includes("story") ? String(n) : label.toLowerCase().includes("rating") ? avg : value;
+              return (
               <div
                 key={label}
                 className="flex flex-col items-center gap-3 px-5 py-9 text-center sm:px-8 sm:py-10"
@@ -143,13 +118,14 @@ export default function TestimonialsPage() {
                   <Icon className="size-5" strokeWidth={1.75} aria-hidden />
                 </span>
                 <dt className="font-heading text-3xl font-extrabold tracking-tight text-[var(--brand-navy)] sm:text-4xl">
-                  {value}
+                  {displayValue}
                 </dt>
                 <dd className="max-w-[12rem] text-sm text-muted-foreground">
                   {label}
                 </dd>
               </div>
-            ))}
+            );
+            })}
           </dl>
         </div>
       </section>
@@ -162,22 +138,21 @@ export default function TestimonialsPage() {
         <div className="site-container py-14 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-none lg:text-left">
             <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] text-primary sm:text-lg">
-              Voices from partners
+              {page.storiesSection.eyebrow}
             </p>
             <h2
               id="testimonials-stories-heading"
               className="mt-3 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[2.35rem] lg:leading-[1.12]"
             >
-              What stood out for them
+              {page.storiesSection.headline}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg lg:max-w-2xl">
-              Each card includes a short quote, role, and rating—the same pattern
-              you&apos;ll see on our homepage, with more room to read here.
+              {page.storiesSection.intro}
             </p>
           </div>
 
           <ul className="mt-12 grid gap-6 sm:gap-7 lg:mt-14 lg:grid-cols-2">
-            {TESTIMONIALS.map((t, i) => (
+            {page.storiesSection.items.map((t, i) => (
               <li key={`${t.name}-${i}`}>
                 <TestimonialCard
                   quote={t.quote}
@@ -203,26 +178,26 @@ export default function TestimonialsPage() {
         <div className="site-container py-14 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-none lg:text-left">
             <div className="inline-flex items-center gap-2 text-primary">
-              <Award className="size-5 shrink-0" aria-hidden />
+              <MessageCircle className="size-5 shrink-0" aria-hidden />
               <p className="font-heading text-base font-semibold uppercase tracking-[0.2em] sm:text-lg">
-                How we show up
+                {page.trustSection.eyebrow}
               </p>
             </div>
             <h2
               id="trust-model-heading"
               className="mt-4 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
             >
-              The themes behind the praise
+              {page.trustSection.headline}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg lg:max-w-2xl">
-              Feedback clusters around a few things we optimize for on every
-              engagement—whether the brief is campaigns, content, or full-funnel
-              work.
+              {page.trustSection.intro}
             </p>
           </div>
 
           <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-6">
-            {WHY_TRUST.map(({ icon: Icon, title, body }) => (
+            {page.trustSection.pillars.map(({ iconKey, title, body }) => {
+              const Icon = resolveTestimonialsTrustIcon(iconKey);
+              return (
               <li key={title}>
                 <div
                   className={cn(
@@ -242,7 +217,8 @@ export default function TestimonialsPage() {
                   </p>
                 </div>
               </li>
-            ))}
+            );
+            })}
           </ul>
         </div>
       </section>
@@ -259,15 +235,14 @@ export default function TestimonialsPage() {
               <div className="flex items-center gap-2 text-primary">
                 <MessageCircle className="size-6 shrink-0" strokeWidth={1.75} aria-hidden />
                 <span className="font-heading text-sm font-semibold uppercase tracking-[0.18em]">
-                  Next step
+                  {page.ctaSection.eyebrow}
                 </span>
               </div>
               <h2 className="mt-3 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                Tell us what you&apos;re building next
+                {page.ctaSection.headline}
               </h2>
               <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Share your goals and timeline—we&apos;ll suggest a practical path
-                across marketing, content, web, and growth support.
+                {page.ctaSection.body}
               </p>
             </div>
             <div className="relative mt-8 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-0 lg:flex-col lg:items-stretch xl:flex-row">
@@ -276,8 +251,8 @@ export default function TestimonialsPage() {
                 size="lg"
                 className="h-12 gap-2 px-8 text-base font-semibold shadow-md"
               >
-                <Link href="/contact">
-                  Start a conversation
+                <Link href={page.ctaSection.primaryCtaHref}>
+                  {page.ctaSection.primaryCtaLabel}
                   <ArrowRight className="size-4 shrink-0" aria-hidden />
                 </Link>
               </Button>
@@ -287,7 +262,7 @@ export default function TestimonialsPage() {
                 size="lg"
                 className="h-12 border-border/80 bg-background/80 px-8 text-base font-semibold backdrop-blur-sm"
               >
-                <Link href="/services">Explore services</Link>
+                <Link href={page.ctaSection.secondaryCtaHref}>{page.ctaSection.secondaryCtaLabel}</Link>
               </Button>
             </div>
           </div>

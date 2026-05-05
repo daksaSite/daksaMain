@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Terms governing your use of the Daksa Digital website and our professional services.",
+  keywords: [
+    "Daksa Digital terms of service",
+    "website terms",
+    "service agreement terms",
+  ],
 };
 
 const LAST_UPDATED = "April 2025";

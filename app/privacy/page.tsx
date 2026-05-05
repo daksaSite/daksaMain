@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "How Daksa Digital Pvt. Ltd. collects, uses, and protects your personal information.",
+  keywords: [
+    "Daksa Digital privacy policy",
+    "data privacy",
+    "website privacy terms",
+  ],
 };
 
 const LAST_UPDATED = "April 2025";

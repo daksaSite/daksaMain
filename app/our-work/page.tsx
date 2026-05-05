@@ -5,9 +5,15 @@ import { PageIntro } from "@/components/page-intro";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Our work",
+  title: "Our Work",
   description:
     "Selected projects and case highlights from Daksa Digital—coming soon as we publish client stories.",
+  keywords: [
+    "Daksa Digital portfolio",
+    "digital marketing case studies",
+    "creative campaign examples",
+    "our work",
+  ],
 };
 
 export default function OurWorkPage() {

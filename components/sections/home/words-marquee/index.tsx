@@ -1,8 +1,21 @@
-const WORDS = ["Visibility", "Growth", "Impact", "Scale", "Trust", "Results"] as const;
+import { HOME_PAGE_FALLBACK } from "@/lib/sanity.home";
 
-const TRACK_WORDS = Array.from({ length: 4 }, () => WORDS).flat();
+const fb = HOME_PAGE_FALLBACK;
 
-export function WordsMarqueeSection() {
+export type WordsMarqueeSectionProps = {
+  words?: string[];
+};
+
+function buildTrackWords(words: string[]) {
+  return Array.from({ length: 4 }, () => words).flat();
+}
+
+export function WordsMarqueeSection({
+  words = fb.marqueeWords!,
+}: WordsMarqueeSectionProps) {
+  const cycle = words.length >= 2 ? words : fb.marqueeWords!;
+  const trackWords = buildTrackWords(cycle);
+
   return (
     <section
       aria-hidden
@@ -11,8 +24,8 @@ export function WordsMarqueeSection() {
       <div className="words-marquee-track flex w-max select-none items-center gap-0">
         {[0, 1].map((run) => (
           <span key={run} className="flex items-center gap-0">
-            {TRACK_WORDS.map((word, i) => (
-              <span key={`${run}-${i}`} className="flex items-center">
+            {trackWords.map((word, i) => (
+              <span key={`${run}-${i}-${word}`} className="flex items-center">
                 <span
                   className={
                     i % 2 === 0

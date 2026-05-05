@@ -1,102 +1,42 @@
 import type { Metadata } from "next";
-import {
-  BarChart3,
-  Globe,
-  LineChart,
-  Megaphone,
-  Palette,
-  PenLine,
-  Search,
-  Share2,
-  Users,
-} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { MEDIA } from "@/lib/media";
+import { getServicesPage } from "@/lib/sanity.services";
+import { resolveServiceIcon } from "@/lib/services-page-icons";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Digital marketing, content, social, web, SEO, branding, lead generation, and more — tailored to your goals. Daksa Digital Pvt. Ltd., Noida.",
-};
+const DEFAULT_META_DESCRIPTION =
+  "Digital marketing, content, social, web, SEO, branding, lead generation, and more tailored to your goals.";
 
-const SERVICES_EXPANDED = [
-  {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    description:
-      "Multi-channel campaigns built around your goals — paid search, display, and performance marketing managed end-to-end.",
-    points: ["Strategy + execution in one team", "ROI-focused reporting", "Paid & organic channels"],
-  },
-  {
-    icon: Users,
-    title: "Influencer Marketing",
-    description:
-      "Creator partnerships matched by niche, audience quality, and brand fit — not just follower count.",
-    points: ["Nano to macro creator network", "Brief to post-campaign reporting", "Authentic, not scripted"],
-  },
-  {
-    icon: PenLine,
-    title: "Content Writing",
-    description:
-      "Blog posts, web copy, case studies, and ad scripts — purposeful writing that earns attention and drives action.",
-    points: ["SEO-optimized by default", "Brand voice matched", "Every format covered"],
-  },
-  {
-    icon: Share2,
-    title: "Social Media Management",
-    description:
-      "Consistent daily presence, community engagement, and creative content published across your key platforms.",
-    points: ["Content calendar + scheduling", "Community engagement & replies", "Data-backed creative"],
-  },
-  {
-    icon: Globe,
-    title: "Website Development",
-    description:
-      "Fast, clean, mobile-first websites built to convert — from focused landing pages to full product sites.",
-    points: ["Performance-first builds", "Conversion-optimized UX", "CMS-ready or headless"],
-  },
-  {
-    icon: Search,
-    title: "SEO Services",
-    description:
-      "Technical audits, keyword strategy, and on-page content foundations that compound discoverability over time.",
-    points: ["Full technical audit", "Content + link strategy", "Transparent rank tracking"],
-  },
-  {
-    icon: Palette,
-    title: "Branding & Creative Design",
-    description:
-      "Logo, color, type, and visual systems that stay cohesive from business card to full campaign.",
-    points: ["Brand identity & guidelines", "Print + digital assets", "Consistent across channels"],
-  },
-  {
-    icon: LineChart,
-    title: "Lead Generation",
-    description:
-      "Paid ads, landing pages, and nurture flows engineered to fill your pipeline with the right prospects.",
-    points: ["Targeted ad campaigns", "Landing page optimisation", "Lead nurture sequences"],
-  },
-  {
-    icon: BarChart3,
-    title: "Business Promotion Solutions",
-    description:
-      "Integrated campaign planning and media execution for product launches, events, and growth moments.",
-    points: ["Launch & event campaigns", "Multi-channel media mix", "Offline + online coverage"],
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getServicesPage();
+  return {
+    title: page.seoTitle || "Services",
+    description: page.seoDescription || DEFAULT_META_DESCRIPTION,
+    keywords: [
+      "digital marketing services",
+      "digital agency services",
+      "digital agency Noida",
+      "SEO services Noida",
+      "social media management",
+      "website development services",
+      "branding and creative design",
+      "lead generation services",
+    ],
+  };
+}
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const page = await getServicesPage();
   return (
     <div>
 
       {/* ── Hero ── */}
       <section className="relative min-h-[52vh] overflow-hidden bg-[var(--brand-navy)] sm:min-h-[58vh] lg:min-h-[60vh]">
         <Image
-          src={MEDIA.images.hero7}
-          alt="Daksa Digital team planning services"
+          src={page.hero.imageSrc}
+          alt={page.hero.imageAlt}
           fill
           quality={100}
           priority
@@ -110,14 +50,13 @@ export default function ServicesPage() {
 
         <div className="site-container relative flex h-full min-h-[52vh] flex-col justify-end pb-14 pt-24 sm:min-h-[58vh] sm:pb-16 sm:pt-28 lg:min-h-[60vh] lg:pb-20">
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
-            Services
+            {page.hero.eyebrow}
           </p>
           <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.1]">
-            Everything you need to show up, persuade, and convert.
+            {page.hero.title}
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-white/70 sm:mt-5 sm:text-lg">
-            Nine service lines. One accountable partner. Scoped around your stage, goals, and
-            growth metrics.
+            {page.hero.subtitle}
           </p>
         </div>
       </section>
@@ -131,18 +70,19 @@ export default function ServicesPage() {
               id="services-heading"
               className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]"
             >
-              What we do
+              {page.servicesIntro.headline}
             </h2>
             <p className="mt-2.5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">
-              Pick a single lane or bundle channels for compound growth — each engagement is
-              customized to your business objectives.
+              {page.servicesIntro.body}
             </p>
           </div>
 
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
-            {SERVICES_EXPANDED.map(({ icon: Icon, title, description, points }, i) => (
+            {page.services.map(({ iconKey, title, description, points }, i) => {
+              const Icon = resolveServiceIcon(iconKey);
+              return (
               <li
-                key={title}
+                key={`${title}-${i}`}
                 className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-border/70 bg-card p-6 transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-primary/30 sm:p-7"
               >
                 {/* Ghost number */}
@@ -169,8 +109,8 @@ export default function ServicesPage() {
 
                   {/* Key points */}
                   <ul className="mt-auto space-y-1.5 pt-2">
-                    {points.map((pt) => (
-                      <li key={pt} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    {points.map((pt, ptIdx) => (
+                      <li key={`${title}-${ptIdx}`} className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span className="h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />
                         {pt}
                       </li>
@@ -178,7 +118,8 @@ export default function ServicesPage() {
                   </ul>
                 </div>
               </li>
-            ))}
+            );
+            })}
           </ul>
         </div>
       </section>
@@ -192,11 +133,10 @@ export default function ServicesPage() {
                 id="services-cta-heading"
                 className="font-heading text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem]"
               >
-                Not sure which services fit your goals?
+                {page.ctaSection.headline}
               </h2>
               <p className="text-base leading-relaxed text-white/65 sm:text-lg">
-                Tell us where you are and where you want to be. We&apos;ll put together a scoped
-                plan — no jargon, no pressure.
+                {page.ctaSection.body}
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
@@ -205,7 +145,7 @@ export default function ServicesPage() {
                 size="lg"
                 asChild
               >
-                <Link href="/contact">Discuss your requirements</Link>
+                <Link href={page.ctaSection.primaryCtaHref}>{page.ctaSection.primaryCtaLabel}</Link>
               </Button>
               <Button
                 className="h-12 px-8 text-[0.9375rem] font-semibold"
@@ -213,7 +153,7 @@ export default function ServicesPage() {
                 size="lg"
                 asChild
               >
-                <Link href="/testimonials">Read client feedback</Link>
+                <Link href={page.ctaSection.secondaryCtaHref}>{page.ctaSection.secondaryCtaLabel}</Link>
               </Button>
             </div>
           </div>

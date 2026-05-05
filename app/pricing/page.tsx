@@ -5,107 +5,35 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { MEDIA } from "@/lib/media";
+import { getPricingPage } from "@/lib/sanity.pricing";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Starter, Standard, and Premium engagement options with Daksa Digital  clear scope, realistic pricing, and custom enterprise plans.",
-};
+const DEFAULT_META_DESCRIPTION =
+  "Starter, Standard, and Premium engagement options with Daksa Digital clear scope, realistic pricing, and custom enterprise plans.";
 
-type Plan = {
-  name: string;
-  eyebrow: string;
-  description: string;
-  included: readonly string[];
-  notIncluded: readonly string[];
-  /** null = contact-style footer */
-  price: string | null;
-  priceNote?: string;
-  featured?: boolean;
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPricingPage();
+  return {
+    title: page.seoTitle || "Pricing",
+    description: page.seoDescription || DEFAULT_META_DESCRIPTION,
+    keywords: [
+      "digital marketing pricing",
+      "SEO pricing India",
+      "social media management plans",
+      "Daksa Digital pricing",
+      "marketing retainer plans",
+    ],
+  };
+}
 
-const PLANS: Plan[] = [
-  {
-    name: "Starter",
-    eyebrow: "Launch & learn",
-    description:
-      "Ideal for early-stage brands that need consistent digital presence without a full in-house team.",
-    included: [
-      "Kickoff workshop + 90-day roadmap",
-      "Up to 2 social channels — planning, design & scheduling",
-      "4 long-form or carousel content pieces per month",
-      "Monthly performance snapshot (reach, engagement, top posts)",
-      "Community monitoring & light engagement (comment/DM triage)",
-      "On-brand templates for stories and static posts",
-      "Email support with 48-hour response target",
-    ],
-    notIncluded: [
-      "Paid media buying & optimisation",
-      "Dedicated account director",
-      "Influencer outreach & contracting",
-      "Website builds or technical SEO fixes",
-    ],
-    price: "From ₹34,999 / month",
-    priceNote: "Indicative · 3-month minimum · excludes ad spend & taxes",
-  },
-  {
-    name: "Standard",
-    eyebrow: "Growth ready",
-    description:
-      "For teams ready to scale campaigns, tighten creative, and report on outcomes every sprint.",
-    featured: true,
-    included: [
-      "Everything in Starter, plus:",
-      "Up to 4 social channels + platform-specific variants",
-      "8 content deliverables / month (copy, creative, or landing tweaks)",
-      "Paid social or search setup with weekly optimisation checkpoints",
-      "Bi-weekly strategy call + shared live reporting dashboard",
-      "Quarterly creative refresh & competitor snapshot",
-      "Lead form / CTA audits on key landing pages",
-      "Priority chat + email (24-hour target on business days)",
-      "Single monthly influencer or UGC coordination slot",
-    ],
-    notIncluded: [
-      "Full product site rebuilds",
-      "Always-on brand film / large production shoots",
-      "Enterprise martech integrations (CRM, CDP)",
-    ],
-    price: "From ₹79,999 / month",
-    priceNote: "Indicative · scope confirmed after discovery · excludes media spend",
-  },
-  {
-    name: "Premium",
-    eyebrow: "Scale & sophistication",
-    description:
-      "Executive-level partnership: integrated campaigns, senior strategists, and capacity reserved for your brand.",
-    included: [
-      "Everything in Standard, plus:",
-      "Named strategist + producer with weekly war-room cadence",
-      "Unlimited channel coverage within agreed scope of work",
-      "Custom reporting pack (board-ready summaries, cohort views)",
-      "Multi-market or multilingual rollout support",
-      "Crisis / reputation monitoring playbook & on-call window",
-      "Advanced funnel experiments (A/B journeys, nurture logic)",
-      "Executive workshops & annual planning sessions",
-      "Vendor & partner coordination (PR, events, creators)",
-      "Optional embedded days on-site or hybrid each quarter",
-    ],
-    notIncluded: [
-      "Pricing varies by scope — we scope retainers and hybrid project fees together.",
-    ],
-    price: null,
-  },
-];
-
-export default function PricingPage() {
+export default async function PricingPage() {
+  const page = await getPricingPage();
   return (
     <div>
 
       <section className="relative min-h-[48vh] overflow-hidden bg-[var(--brand-navy)] sm:min-h-[52vh] lg:min-h-[54vh]">
         <Image
-          src={MEDIA.images.pricingHero}
-          alt="Pricing and growth planning"
+          src={page.hero.imageSrc}
+          alt={page.hero.imageAlt}
           fill
           quality={95}
           priority
@@ -119,14 +47,13 @@ export default function PricingPage() {
 
         <div className="site-container relative flex min-h-[48vh] flex-col justify-end pb-12 pt-24 sm:min-h-[52vh] sm:pb-14 sm:pt-28 lg:min-h-[54vh] lg:pb-16">
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
-            Pricing
+            {page.hero.eyebrow}
           </p>
           <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
-            Three ways to work together clear scope, no surprises.
+            {page.hero.title}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/72 sm:mt-5 sm:text-lg">
-            Figures below are starting points. After discovery we confirm deliverables, timelines, and
-            commercials in writing project, retainer, or hybrid.
+            {page.hero.subtitle}
           </p>
         </div>
       </section>
@@ -138,16 +65,15 @@ export default function PricingPage() {
               id="plans-heading"
               className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]"
             >
-              Compare plans
+              {page.plansSection.headline}
             </h2>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">
-              Each tier stacks more strategy, creative throughput, and senior attention. Pick a lane to
-              start the conversation — we refine everything on a call.
+              {page.plansSection.intro}
             </p>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-3 lg:gap-5 lg:items-stretch">
-            {PLANS.map((plan) => (
+            {page.plans.map((plan) => (
               <article
                 key={plan.name}
                 className={cn(
@@ -226,26 +152,25 @@ export default function PricingPage() {
                       <p className="font-heading text-xl font-bold tracking-tight text-[var(--brand-navy)] sm:text-2xl">
                         {plan.price}
                       </p>
-                      {plan.priceNote ? (
+                      {plan.priceNote?.trim() ? (
                         <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-[13px]">
                           {plan.priceNote}
                         </p>
                       ) : null}
                       <Button className="mt-5 w-full font-semibold sm:mt-6" size="lg" asChild>
-                        <Link href="/contact">Request this plan</Link>
+                        <Link href={plan.priceCtaHref}>{plan.priceCtaLabel}</Link>
                       </Button>
                     </>
                   ) : (
                     <div className="rounded-xl border border-dashed border-primary/35 bg-primary/[0.04] px-4 py-5 text-center">
                       <p className="font-heading text-lg font-bold text-foreground sm:text-xl">
-                        Custom engagement
+                        {plan.customTitle}
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        Retainers, blended project fees, and enterprise SLAs — we&apos;ll shape a proposal
-                        to your goals and governance needs.
+                        {plan.customBody}
                       </p>
                       <Button className="mt-5 w-full font-semibold" size="lg" asChild>
-                        <Link href="/contact">Contact us</Link>
+                        <Link href={plan.customCtaHref}>{plan.customCtaLabel}</Link>
                       </Button>
                     </div>
                   )}
@@ -256,22 +181,17 @@ export default function PricingPage() {
 
           <div className="mt-14 rounded-2xl border border-border/70 bg-muted/20 px-6 py-8 sm:mt-16 sm:px-8 lg:mt-20">
             <p className="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-primary">
-              How we price
+              {page.howWePrice.eyebrow}
             </p>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
-              Every engagement starts with <strong className="text-foreground">discovery</strong> — we
-              align on goals, constraints, and success metrics, then share a scoped plan with timelines
-              and commercial options. <strong className="text-foreground">Project</strong> fees suit
-              defined deliverables; <strong className="text-foreground">retainers</strong> keep a steady
-              drumbeat of execution; <strong className="text-foreground">hybrid</strong> pairs a baseline
-              retainer with burst projects when you need extra velocity.
+              {page.howWePrice.body}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button variant="outline" className="font-semibold" asChild>
-                <Link href="/process">See our process</Link>
+                <Link href={page.howWePrice.primaryCtaHref}>{page.howWePrice.primaryCtaLabel}</Link>
               </Button>
               <Button variant="ghost" className="font-semibold text-primary hover:text-primary" asChild>
-                <Link href="/services">Browse services</Link>
+                <Link href={page.howWePrice.secondaryCtaHref}>{page.howWePrice.secondaryCtaLabel}</Link>
               </Button>
             </div>
           </div>

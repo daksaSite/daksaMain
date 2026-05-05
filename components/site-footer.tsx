@@ -2,6 +2,7 @@ import { ArrowRight, Clock, Mail, MapPin, MessageCircle, Phone, Share2 } from "l
 import Image from "next/image";
 import Link from "next/link";
 
+import type { SiteFooterData } from "@/lib/sanity.footer";
 import { CONTACT } from "@/lib/site-content";
 
 const NAV_COLS = [
@@ -26,13 +27,7 @@ const NAV_COLS = [
   },
 ] as const;
 
-const SOCIALS = [
-  { href: CONTACT.social.instagram, label: "Instagram" },
-  { href: CONTACT.social.linkedin, label: "LinkedIn" },
-  { href: CONTACT.social.facebook, label: "Facebook" },
-] as const;
-
-export function SiteFooter() {
+export function SiteFooter({ data }: { data: SiteFooterData }) {
   return (
     <footer className="bg-[var(--brand-navy)] text-white/80">
       {/* Top accent line */}
@@ -68,46 +63,45 @@ export function SiteFooter() {
             </Link>
 
             <p className="text-sm leading-relaxed text-white/60">
-              <span className="font-semibold text-white/85">Built for Scale. Driven by Impact.</span>{" "}
-              Digital marketing and growth solutions for brands that want clarity,
-              consistency, and measurable results.
+              <span className="font-semibold text-white/85">{data.taglineBold}</span>{" "}
+              {data.taglineBody}
             </p>
 
             {/* Contact details */}
             <ul className="space-y-2.5 text-sm text-white/55">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 size-3.5 shrink-0 text-primary/80" aria-hidden />
-                <span>{CONTACT.address}</span>
+                <span>{data.address}</span>
               </li>
               <li>
                 <a
-                  href={CONTACT.phoneHref}
+                  href={data.phoneHref}
                   className="inline-flex items-center gap-2.5 transition-colors hover:text-white"
                 >
                   <Phone className="size-3.5 shrink-0 text-primary/80" aria-hidden />
-                  {CONTACT.phone}
+                  {data.phone}
                 </a>
               </li>
               <li>
                 <a
-                  href={`mailto:${CONTACT.email}`}
+                  href={`mailto:${data.email}`}
                   className="inline-flex items-center gap-2.5 break-all transition-colors hover:text-white"
                 >
                   <Mail className="mt-0.5 size-3.5 shrink-0 text-primary/80" aria-hidden />
-                  {CONTACT.email}
+                  {data.email}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Clock className="size-3.5 shrink-0 text-primary/80" aria-hidden />
-                <span>Mon–Sat, 10am–7pm IST</span>
+                <span>{data.hours}</span>
               </li>
             </ul>
 
             {/* Social links */}
             <div className="flex items-center gap-1 pt-0.5">
               <Share2 className="mr-2 size-3.5 text-white/30" aria-hidden />
-              {SOCIALS.map(({ href, label }, i) => (
-                <span key={label} className="flex items-center gap-1">
+              {data.socialLinks.map(({ href, label }, i) => (
+                <span key={`${label}-${href}`} className="flex items-center gap-1">
                   {i > 0 && <span className="text-white/20">·</span>}
                   <a
                     href={href}
@@ -146,17 +140,17 @@ export function SiteFooter() {
           {/* CTA buttons */}
           <div className="flex flex-col justify-start gap-2.5">
             <Link
-              href="/contact"
+              href={data.primaryButtonHref}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
             >
               <MessageCircle className="size-4" aria-hidden />
-              Contact the team
+              {data.primaryButtonLabel}
             </Link>
             <Link
-              href="/about"
+              href={data.secondaryButtonHref}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 px-4 py-2.5 text-sm font-semibold text-white/75 transition-colors hover:border-white/30 hover:text-white"
             >
-              Learn more
+              {data.secondaryButtonLabel}
               <ArrowRight className="size-4" aria-hidden />
             </Link>
           </div>

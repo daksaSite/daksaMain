@@ -5,27 +5,36 @@ import Link from "next/link";
 
 import { InquiryForm } from "@/components/inquiry-form";
 import { Button } from "@/components/ui/button";
-import { CONTACT } from "@/lib/site-content";
-import { MEDIA } from "@/lib/media";
+import { getContactPage } from "@/lib/sanity.contact";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Reach Daksa Digital in Noida — phone, email, inquiry form, and directions to Sector 63, G Block.",
-};
+const DEFAULT_META_DESCRIPTION =
+  "Reach Daksa Digital in Noida phone, email, inquiry form, and directions to Sector 63, G Block.";
 
-const MAP_EMBED_SRC =
-  "https://maps.google.com/maps?q=28.6164226,77.3905024&z=17&hl=en&output=embed";
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getContactPage();
+  return {
+    title: page.seoTitle || "Contact",
+    description: page.seoDescription || DEFAULT_META_DESCRIPTION,
+    keywords: [
+      "contact Daksa Digital",
+      "digital agency Noida contact",
+      "digital marketing agency Noida contact",
+      "Daksa Digital phone",
+      "Daksa Digital email",
+    ],
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const page = await getContactPage();
   return (
     <div>
 
       {/* ── Hero ── */}
       <section className="relative min-h-[46vh] overflow-hidden bg-[var(--brand-navy)] sm:min-h-[50vh] lg:min-h-[52vh]">
         <Image
-          src={MEDIA.images.hero8}
-          alt="Partners collaborating — contact Daksa Digital"
+          src={page.hero.imageSrc}
+          alt={page.hero.imageAlt}
           fill
           quality={100}
           priority
@@ -39,14 +48,14 @@ export default function ContactPage() {
 
         <div className="site-container relative flex min-h-[46vh] flex-col justify-end pb-12 pt-24 sm:min-h-[50vh] sm:pb-14 sm:pt-28 lg:min-h-[52vh] lg:pb-16">
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
-            Contact
+            {page.hero.eyebrow}
           </p>
           <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
-            Tell us what you&apos;re building — we&apos;ll reply with clear next steps.
+            {page.hero.title}
+       
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-white/72 sm:mt-5 sm:text-lg">
-            Form submissions go straight to our inbox. Prefer voice? Call or email — same team,
-            no hand-offs.
+            {page.hero.subtitle}
           </p>
         </div>
       </section>
@@ -59,10 +68,10 @@ export default function ContactPage() {
             {/* Left — channels */}
             <div className="lg:col-span-5">
               <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-                Ways to reach us
+                {page.reachUs.heading}
               </h2>
               <p className="mt-2 text-base leading-relaxed text-muted-foreground">
-                Based in Noida — we work with teams across India and remotely.
+                {page.reachUs.intro}
               </p>
 
               <ul className="mt-10 space-y-8">
@@ -72,12 +81,12 @@ export default function ContactPage() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="font-heading text-sm font-semibold text-foreground">
-                      Office
+                      {page.reachUs.officeLabel}
                     </p>
-                    <p className="mt-1 leading-relaxed text-muted-foreground">{CONTACT.address}</p>
+                    <p className="mt-1 leading-relaxed text-muted-foreground">{page.reachUs.officeAddress}</p>
                     <Button variant="link" className="mt-2 h-auto p-0 text-primary" asChild>
                       <a
-                        href={CONTACT.googleMapsUrl}
+                        href={page.reachUs.googleMapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 font-semibold"
@@ -95,13 +104,13 @@ export default function ContactPage() {
                   </span>
                   <div>
                     <p className="font-heading text-sm font-semibold text-foreground">
-                      Phone
+                      {page.reachUs.phoneLabel}
                     </p>
                     <a
-                      href={CONTACT.phoneHref}
+                      href={page.reachUs.phoneHref}
                       className="mt-1 inline-block font-medium text-primary underline-offset-4 hover:underline"
                     >
-                      +91 {CONTACT.phone}
+                      {page.reachUs.phoneDisplay}
                     </a>
                   </div>
                 </li>
@@ -112,13 +121,13 @@ export default function ContactPage() {
                   </span>
                   <div className="min-w-0">
                     <p className="font-heading text-sm font-semibold text-foreground">
-                      Email
+                      {page.reachUs.emailLabel}
                     </p>
                     <a
-                      href={`mailto:${CONTACT.email}`}
+                      href={`mailto:${page.reachUs.email}`}
                       className="mt-1 inline-block break-all font-medium text-primary underline-offset-4 hover:underline"
                     >
-                      {CONTACT.email}
+                      {page.reachUs.email}
                     </a>
                   </div>
                 </li>
@@ -126,15 +135,15 @@ export default function ContactPage() {
 
               <div className="mt-10 rounded-2xl border border-border/70 bg-muted/25 px-5 py-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Website
+                  {page.reachUs.websiteLabel}
                 </p>
                 <Link
-                  href={CONTACT.website}
+                  href={page.reachUs.websiteHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-1 inline-flex items-center gap-1 font-heading font-semibold text-foreground hover:text-primary"
                 >
-                  {CONTACT.websiteLabel}
+                  {page.reachUs.websiteText}
                   <ArrowUpRight className="size-4 opacity-70" aria-hidden />
                 </Link>
               </div>
@@ -147,11 +156,10 @@ export default function ContactPage() {
                   id="contact-form-heading"
                   className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl"
                 >
-                  Send an inquiry
+                  {page.inquiryPanel.heading}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
-                  Share your goals and timeline — the more context you give, the faster we can come
-                  back with something useful.
+                  {page.inquiryPanel.intro}
                 </p>
                 <InquiryForm className="mt-8" />
               </div>
@@ -170,15 +178,15 @@ export default function ContactPage() {
                 id="map-heading"
                 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl"
               >
-                Find us
+                {page.mapSection.heading}
               </h2>
               <p className="mt-1 max-w-lg text-sm text-muted-foreground sm:text-base">
-                Sector 63, G Block — same pin as Google Maps for directions and navigation.
+                {page.mapSection.intro}
               </p>
             </div>
             <Button variant="outline" className="w-fit shrink-0 gap-1.5" asChild>
-              <a href={CONTACT.googleMapsUrl} target="_blank" rel="noopener noreferrer">
-                Google Maps
+              <a href={page.reachUs.googleMapsUrl} target="_blank" rel="noopener noreferrer">
+                {page.mapSection.mapsButtonLabel}
                 <ArrowUpRight className="size-4" aria-hidden />
               </a>
             </Button>
@@ -188,7 +196,7 @@ export default function ContactPage() {
             <div className="aspect-[16/10] min-h-[240px] w-full sm:aspect-[21/9] sm:min-h-[280px] lg:min-h-[320px]">
               <iframe
                 title="Daksa Digital office location on Google Maps"
-                src={MAP_EMBED_SRC}
+                src={page.mapSection.mapEmbedSrc}
                 className="size-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
