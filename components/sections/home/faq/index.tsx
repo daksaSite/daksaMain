@@ -29,6 +29,7 @@ export function HomeFaqSection({
 }: HomeFaqSectionProps) {
   return (
     <section
+      id="faq"
       className="relative overflow-hidden border-b border-border/60 bg-muted/25"
       aria-labelledby="home-faq-heading"
     >

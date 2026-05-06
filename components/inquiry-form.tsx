@@ -19,6 +19,25 @@ export function InquiryForm({ className }: { className?: string }) {
   >("idle");
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [fallbackNotice, setFallbackNotice] = React.useState(false);
+  const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>(
+    {},
+  );
+
+  const validateFields = (values: {
+    fullName: string;
+    phone: string;
+    email: string;
+    service: string;
+  }) => {
+    const errors: Record<string, string> = {};
+    if (!values.fullName) errors.fullName = "Please enter your full name.";
+    if (!values.phone) errors.phone = "Please enter your phone number.";
+    if (!values.email) errors.email = "Please enter your email address.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
+      errors.email = "Please enter a valid email address.";
+    if (!values.service) errors.service = "Please select a service.";
+    return errors;
+  };
 
   React.useEffect(() => {
     if (status !== "success") return;
@@ -35,8 +54,16 @@ export function InquiryForm({ className }: { className?: string }) {
     const email = String(data.get("email") ?? "").trim();
     const service = String(data.get("service") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
-
-    if (!fullName || !phone || !email || !service) {
+    const validationErrors = validateFields({
+      fullName,
+      phone,
+      email,
+      service,
+    });
+    setFieldErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setStatus("error");
+      setErrorMessage("Please fix the highlighted fields and try again.");
       return;
     }
 
@@ -73,6 +100,7 @@ export function InquiryForm({ className }: { className?: string }) {
 
       if (res.ok) {
         setStatus("success");
+        setFieldErrors({});
         form.reset();
         return;
       }
@@ -117,10 +145,23 @@ export function InquiryForm({ className }: { className?: string }) {
             name="fullName"
             required
             autoComplete="name"
-            placeholder="Your name"
-            className="h-11"
+            placeholder="e.g. Shashank Singh"
+            className={cn("h-11", fieldErrors.fullName && "aria-invalid:ring-destructive/30")}
+            aria-invalid={Boolean(fieldErrors.fullName)}
+            aria-describedby={fieldErrors.fullName ? "fullName-error" : undefined}
             disabled={status === "loading"}
+            onBlur={(e) =>
+              setFieldErrors((prev) => ({
+                ...prev,
+                fullName: e.target.value.trim() ? "" : "Please enter your full name.",
+              }))
+            }
           />
+          {fieldErrors.fullName ? (
+            <p id="fullName-error" className="text-xs text-destructive">
+              {fieldErrors.fullName}
+            </p>
+          ) : null}
         </div>
         <div className="space-y-2">
           <label htmlFor="phone" className="text-sm font-medium text-foreground">
@@ -133,9 +174,22 @@ export function InquiryForm({ className }: { className?: string }) {
             required
             autoComplete="tel"
             placeholder="+91 …"
-            className="h-11"
+            className={cn("h-11", fieldErrors.phone && "aria-invalid:ring-destructive/30")}
+            aria-invalid={Boolean(fieldErrors.phone)}
+            aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
             disabled={status === "loading"}
+            onBlur={(e) =>
+              setFieldErrors((prev) => ({
+                ...prev,
+                phone: e.target.value.trim() ? "" : "Please enter your phone number.",
+              }))
+            }
           />
+          {fieldErrors.phone ? (
+            <p id="phone-error" className="text-xs text-destructive">
+              {fieldErrors.phone}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -150,9 +204,27 @@ export function InquiryForm({ className }: { className?: string }) {
           required
           autoComplete="email"
           placeholder="you@company.com"
-          className="h-11"
+          className={cn("h-11", fieldErrors.email && "aria-invalid:ring-destructive/30")}
+          aria-invalid={Boolean(fieldErrors.email)}
+          aria-describedby={fieldErrors.email ? "email-error" : undefined}
           disabled={status === "loading"}
+          onBlur={(e) => {
+            const value = e.target.value.trim();
+            setFieldErrors((prev) => ({
+              ...prev,
+              email: !value
+                ? "Please enter your email address."
+                : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+                  ? ""
+                  : "Please enter a valid email address.",
+            }));
+          }}
         />
+        {fieldErrors.email ? (
+          <p id="email-error" className="text-xs text-destructive">
+            {fieldErrors.email}
+          </p>
+        ) : null}
       </div>
 
       <div className="space-y-2">
@@ -166,6 +238,14 @@ export function InquiryForm({ className }: { className?: string }) {
           disabled={status === "loading"}
           className="h-11 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-60"
           defaultValue=""
+          aria-invalid={Boolean(fieldErrors.service)}
+          aria-describedby={fieldErrors.service ? "service-error" : undefined}
+          onBlur={(e) =>
+            setFieldErrors((prev) => ({
+              ...prev,
+              service: e.target.value ? "" : "Please select a service.",
+            }))
+          }
         >
           <option value="" disabled>
             Select a service
@@ -176,6 +256,11 @@ export function InquiryForm({ className }: { className?: string }) {
             </option>
           ))}
         </select>
+        {fieldErrors.service ? (
+          <p id="service-error" className="text-xs text-destructive">
+            {fieldErrors.service}
+          </p>
+        ) : null}
       </div>
 
       <div className="space-y-2">
@@ -203,7 +288,7 @@ export function InquiryForm({ className }: { className?: string }) {
           className="rounded-lg border border-primary/25 bg-primary/5 px-4 py-3 text-sm text-foreground"
           role="status"
         >
-          Thanks we&apos;ve received your message and will get back to you soon.
+          Thanks, your request is in. We&apos;ll review it and get back within 1 business day.
         </p>
       ) : null}
 
@@ -232,6 +317,10 @@ export function InquiryForm({ className }: { className?: string }) {
             "Send message"
           )}
         </Button>
+        <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
+          What happens after you submit? We review your brief, share next steps, and schedule
+          a consultation call.
+        </p>
       </div>
     </form>
   );

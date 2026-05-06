@@ -30,6 +30,7 @@ export function HeroSection({
 }) {
   return (
     <section
+      id="home"
       className="relative overflow-x-clip border-b border-border/60"
       aria-labelledby="hero-heading"
     >
@@ -42,7 +43,7 @@ export function HeroSection({
           <div className="space-y-6">
             <h1
               id="hero-heading"
-              className="animate-hero animate-hero-delay-1 font-heading text-4xl font-bold leading-[1.08] tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-[3.35rem]"
+              className="animate-hero animate-hero-delay-1 font-heading text-[2.1rem] font-bold leading-[1.04] tracking-tight text-balance sm:text-5xl sm:leading-[1.08] md:text-6xl lg:text-[3.35rem]"
             >
               {title}
             </h1>

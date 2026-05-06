@@ -66,6 +66,7 @@ export function TestimonialPreviewSection({
 
   return (
     <section
+      id="testimonials"
       className="relative overflow-hidden border-b border-border/60 bg-muted/25"
       aria-labelledby="testimonial-preview-heading"
     >

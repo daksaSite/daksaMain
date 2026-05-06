@@ -7,6 +7,7 @@ import {
   UserCircle2,
 } from "lucide-react";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { PageIntro } from "@/components/page-intro";
 import { Button } from "@/components/ui/button";
 import { PROCESS_STEPS } from "@/lib/site-content";
@@ -45,6 +46,12 @@ const expectations = [
 export default function ProcessPage() {
   return (
     <div className="site-container py-16 sm:py-20 lg:py-24">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Process" },
+        ]}
+      />
       <PageIntro
         eyebrow="Process"
         title="From discovery to optimization—with clear phases at every step."
@@ -160,7 +167,7 @@ export default function ProcessPage() {
 
       <div className="mt-14 flex flex-wrap gap-4 lg:mt-16">
         <Button asChild size="lg" className="h-11 px-7 text-base font-semibold">
-          <Link href="/contact">Start a conversation</Link>
+          <Link href="/contact">Book Free Consultation</Link>
         </Button>
         <Button
           asChild

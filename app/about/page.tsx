@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import {
   resolveAboutAudienceIcon,
   resolveAboutValueIcon,
@@ -48,10 +49,17 @@ export default async function AboutPage() {
         />
 
         <div className="site-container relative flex h-full min-h-[52vh] flex-col justify-end pb-14 pt-24 sm:min-h-[58vh] sm:pb-16 sm:pt-28 lg:min-h-[62vh] lg:pb-20">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "About us" },
+            ]}
+            tone="inverse"
+          />
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
             {about.hero.eyebrow}
           </p>
-          <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.1]">
+          <h1 className="mt-3 max-w-3xl font-heading text-[2rem] font-bold leading-[1.05] tracking-tight text-white text-balance sm:text-4xl sm:leading-[1.1] lg:text-[3rem]">
             {about.hero.title}
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-white/70 sm:mt-5 sm:text-lg">

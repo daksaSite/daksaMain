@@ -10,6 +10,7 @@ import {
   Star,
 } from "lucide-react";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { Button } from "@/components/ui/button";
 import { getTestimonialsPage } from "@/lib/sanity.testimonials";
@@ -70,11 +71,18 @@ export default async function TestimonialsPage() {
         />
 
         <div className="site-container relative flex min-h-[48vh] flex-col justify-end pb-12 pt-24 sm:min-h-[52vh] sm:pb-14 sm:pt-28 lg:min-h-[56vh] lg:pb-16 lg:pt-32">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Testimonials" },
+            ]}
+            tone="inverse"
+          />
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/95 sm:text-sm">
             <Sparkles className="size-4 shrink-0" aria-hidden />
             <span>{page.hero.eyebrow}</span>
           </div>
-          <h1 className="mt-4 max-w-4xl font-heading text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
+          <h1 className="mt-4 max-w-4xl font-heading text-balance text-[2rem] font-bold leading-[1.05] tracking-tight text-white sm:text-4xl sm:leading-[1.08] lg:text-[3rem]">
             {page.hero.title}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">

@@ -3,6 +3,7 @@ import { Check, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getPricingPage } from "@/lib/sanity.pricing";
@@ -46,10 +47,17 @@ export default async function PricingPage() {
         />
 
         <div className="site-container relative flex min-h-[48vh] flex-col justify-end pb-12 pt-24 sm:min-h-[52vh] sm:pb-14 sm:pt-28 lg:min-h-[54vh] lg:pb-16">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Pricing" },
+            ]}
+            tone="inverse"
+          />
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
             {page.hero.eyebrow}
           </p>
-          <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
+          <h1 className="mt-3 max-w-3xl font-heading text-[2rem] font-bold leading-[1.05] tracking-tight text-white text-balance sm:text-4xl sm:leading-[1.08] lg:text-[3rem]">
             {page.hero.title}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/72 sm:mt-5 sm:text-lg">

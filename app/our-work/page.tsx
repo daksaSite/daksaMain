@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { PageIntro } from "@/components/page-intro";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
 export default function OurWorkPage() {
   return (
     <div className="site-container py-16 sm:py-20">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Our work" },
+        ]}
+      />
       <PageIntro
         eyebrow="Our work"
         title="Case studies and project highlights"
@@ -31,7 +38,7 @@ export default function OurWorkPage() {
           we’ll walk you through comparable work on a call.
         </p>
         <Button className="mt-6" asChild>
-          <Link href="/contact">Get in touch</Link>
+          <Link href="/contact">Book Free Consultation</Link>
         </Button>
       </div>
     </div>

@@ -43,6 +43,7 @@ export function AboutPreviewSection({
 
   return (
     <section
+      id="about"
       className="relative overflow-hidden border-b border-border/60 bg-muted/25"
       aria-labelledby="about-preview-heading"
     >
@@ -60,12 +61,12 @@ export function AboutPreviewSection({
               id="about-preview-heading"
               className={cn(
                 "font-heading text-balance font-bold tracking-tight text-foreground",
-                "text-4xl leading-[1.1] sm:text-5xl lg:text-[2.85rem] lg:leading-[1.08]",
+                "text-[2.05rem] leading-[1.05] sm:text-5xl sm:leading-[1.1] lg:text-[2.85rem] lg:leading-[1.08]",
               )}
             >
               {headline}
             </h2>
-            <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground text-justify sm:text-left sm:text-lg">
               <p>{paragraph1}</p>
               <p>{paragraph2}</p>
             </div>
@@ -175,7 +176,7 @@ export function AboutPreviewSection({
                 </div>
               </div>
 
-              <p className="mt-8 text-center text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-8 text-justify text-sm leading-relaxed text-muted-foreground sm:text-center">
                 {orbitFootnote}
               </p>
             </div>

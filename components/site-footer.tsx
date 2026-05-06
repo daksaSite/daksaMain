@@ -76,7 +76,7 @@ export function SiteFooter({ data }: { data: SiteFooterData }) {
               <li>
                 <a
                   href={data.phoneHref}
-                  className="inline-flex items-center gap-2.5 transition-colors hover:text-white"
+                  className="inline-flex items-center gap-2.5 rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                 >
                   <Phone className="size-3.5 shrink-0 text-primary/80" aria-hidden />
                   {data.phone}
@@ -85,7 +85,7 @@ export function SiteFooter({ data }: { data: SiteFooterData }) {
               <li>
                 <a
                   href={`mailto:${data.email}`}
-                  className="inline-flex items-center gap-2.5 break-all transition-colors hover:text-white"
+                  className="inline-flex items-center gap-2.5 break-all rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                 >
                   <Mail className="mt-0.5 size-3.5 shrink-0 text-primary/80" aria-hidden />
                   {data.email}
@@ -107,7 +107,7 @@ export function SiteFooter({ data }: { data: SiteFooterData }) {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-white/50 transition-colors hover:text-white"
+                    className="rounded-sm text-sm text-white/50 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                   >
                     {label}
                   </a>
@@ -116,26 +116,28 @@ export function SiteFooter({ data }: { data: SiteFooterData }) {
             </div>
           </div>
 
-          {/* Nav columns */}
-          {NAV_COLS.map(({ heading, links }) => (
-            <div key={heading}>
-              <p className="mb-4 font-heading text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/38">
-                {heading}
-              </p>
-              <ul className="space-y-2.5">
-                {links.map(({ href, label }) => (
-                  <li key={label}>
-                    <Link
-                      href={href}
-                      className="text-sm text-white/60 transition-colors hover:text-white"
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Nav columns: 2-up on mobile, unchanged on desktop */}
+          <div className="grid grid-cols-2 gap-8 sm:gap-10 lg:contents">
+            {NAV_COLS.map(({ heading, links }) => (
+              <div key={heading}>
+                <p className="mb-4 font-heading text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/38">
+                  {heading}
+                </p>
+                <ul className="space-y-2.5">
+                  {links.map(({ href, label }) => (
+                    <li key={label}>
+                      <Link
+                        href={href}
+                      className="rounded-sm text-sm text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
           {/* CTA buttons */}
           <div className="flex flex-col justify-start gap-2.5">
@@ -167,15 +169,21 @@ export function SiteFooter({ data }: { data: SiteFooterData }) {
             <p className="text-white/30">Made with ♥ in Noida</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-            <Link href="/privacy" className="transition-colors hover:text-white/70">
+            <Link
+              href="/privacy"
+              className="rounded-sm transition-colors hover:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-white/70">
+            <Link
+              href="/terms"
+              className="rounded-sm transition-colors hover:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            >
               Terms of Service
             </Link>
             <a
               href={CONTACT.website}
-              className="transition-colors hover:text-white/70"
+              className="rounded-sm transition-colors hover:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               rel="noopener noreferrer"
               target="_blank"
             >

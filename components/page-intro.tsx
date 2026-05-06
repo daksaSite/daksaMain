@@ -18,7 +18,7 @@ export function PageIntro({
           {eyebrow}
         </p>
       ) : null}
-      <h1 className="font-heading text-3xl font-bold tracking-tight text-balance md:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
+      <h1 className="font-heading text-[1.95rem] font-bold leading-[1.08] tracking-tight text-balance md:text-4xl md:leading-[1.12] lg:text-[2.75rem]">
         {title}
       </h1>
       {description ? (
