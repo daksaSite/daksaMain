@@ -277,7 +277,7 @@ export const CONTACT = {
   websiteLabel: "daksadigital.in",
   social: {
     instagram: "https://www.instagram.com/",
-    linkedin: "https://www.linkedin.com/",
+    linkedin: "https://in.linkedin.com/in/daksa-digital-private-limited-989071384",
     facebook: "https://www.facebook.com/",
   },
 } as const;
